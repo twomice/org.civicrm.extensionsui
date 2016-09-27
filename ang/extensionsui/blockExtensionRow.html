@@ -1,0 +1,20 @@
+<td>
+  <a ng-click="showOverlay(value.key, value.crmExt_parentname)" href="">{{value.name}}</a>
+  <br/>{{value.maintainer.author}} <span ng-if="(value.maintainer.email.length)">({{value.maintainer.email}})</span>
+  <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(value.key))">Version {{availableUpgradeVersion(value.key)}} is available. <a href="" ng-click="upgrade(value.key)">Upgrade</a></div>
+</td>
+<td>
+  {{value.version}}
+</td>
+<td>
+  {{value.develStage}}
+</td>
+<td ng-if="(viewName == 'installed')">
+  {{value.statusLabel}}
+</td>
+<td>
+  <a ng-if="(!value.status.length || value.status == 'uninstalled')" class="action-item crm-hover-button" href="" ng-click="install(value.key)">Install</a>
+  <a ng-if="(value.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="enable(value.key)">Enable</a>
+  <a ng-if="(value.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="uninstall(value.key)">Uninstall</a>
+  <a ng-if="(value.status == 'installed')" class="action-item crm-hover-button" href="" ng-click="disable(value.key)">Disable</a>
+</td>

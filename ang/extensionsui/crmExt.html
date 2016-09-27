@@ -1,55 +1,34 @@
+<h1 crm-page-title>{{ts('CiviCRM Extensions')}}</h1>
 <div class="crm-container">
-  <div crm-ui-debug="myContact"></div>
-
-  <form name="myForm" crm-ui-id-scope>
-
-    <div class="help">
-      <p>{{ts('This is an auto-generated skeletal page.')}}</p>
-
-      <p>{{ts('To view more debugging information, edit the URL and include "?angularDebug=1".')}}</p>
-    </div>
-
-    <div crm-ui-accordion="{title: ts('Hello')}">
-      <p ng-show="myContact.first_name">{{ ts('Hello, %1.', {1: myContact.first_name}) }}</p>
-
-      <p ng-show="!myContact.first_name">{{ ts('Hello, stranger.') }}</p>
-    </div>
-
     <div crm-ui-accordion="{title: ts('Installed')}">
-      <ul ng-repeat="(key, value) in apiLocalExtensions.values">
-        <li>
-          {{value.key}}
-        </li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ts('Extension')}}</th>
+            <th>{{ts('Version')}}</th>
+            <th>{{ts('Development Stage')}}</th>
+            <th>{{ts('Status')}}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="(key, value) in extensions.installed">
+          <tr ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
+        </tbody>
+      </table>
     </div>
-
     <div crm-ui-accordion="{title: ts('Add New')}">
-      <div class="crm-block">
-        <div class="crm-group">
-          <div crm-ui-field="{name: 'myForm.first_name', title: ts('Name'), help: hs('full_name')}">
-            <input
-              crm-ui-id="myForm.first_name"
-              name="first_name"
-              ng-model="myContact.first_name"
-              class="crm-form-text"
-              placeholder="{{ts('First')}}"
-              />
-            <input
-              crm-ui-id="myForm.last_name"
-              name="last_name"
-              ng-model="myContact.last_name"
-              class="crm-form-text"
-              placeholder="{{ts('Last')}}"
-              />
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <button ng-click="save()">{{ts('Save')}}</button>
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ts('Extension')}}</th>
+            <th>{{ts('Version')}}</th>
+            <th>{{ts('Development Stage')}}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="(key, value) in extensions.addnew">
+          <tr ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
+        </tbody>
+      </table>
     </div>
-
-  </form>
-
 </div>
