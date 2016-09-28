@@ -2,7 +2,8 @@
 <a href="" ng-click="foo('FIXME')">foo</a>
 <div ng-include="'~/extensionsui/blockPageActionLinks.html'"></div>
 <div class="crm-container">
-    <div crm-ui-accordion="{title: ts('Installed')}">
+  <div crm-ui-tab-set>
+    <div id="crm-extensionsui-tab-installed" crm-ui-tab crm-title="ts('Installed')">
       <table>
         <thead>
           <tr>
@@ -18,7 +19,7 @@
         </tbody>
       </table>
     </div>
-    <div crm-ui-accordion="{title: ts('Add New')}">
+    <div id="crm-extensionsui-tab-addnew" crm-ui-tab crm-title="ts('Add New')">
       <div class="help" ng-bind-html="addNewHelpText"></div>
       <table>
         <thead>
