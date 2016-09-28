@@ -16,3 +16,6 @@ div#crm-extensionsui-overlay-stats, div#crm-extensionsui-overlay-details {
   width: 18%;
   float: left;
 }
+td#crm-extensionsui-overlay-actions {
+  text-align: right;
+}

@@ -1,4 +1,5 @@
 <h1 crm-page-title>{{ts('CiviCRM Extensions')}}</h1>
+<a href="" ng-click="foo()">foo</a>
 <div class="crm-container">
     <div crm-ui-accordion="{title: ts('Installed')}">
       <table>
@@ -17,14 +18,7 @@
       </table>
     </div>
     <div crm-ui-accordion="{title: ts('Add New')}">
-      <div class="help">
-        {{ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community.  You may also want to check the %1 for CiviCRM-related %2 modules, which are not listed here.', {1: extensionsDirectoryLink, 2: config.userFramework})}}
-
-        <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a>
-
-        <!--  ')}} -->
-      </div>
-
+      <div class="help" ng-bind-html="addNewHelpText"></div>
       <table>
         <thead>
           <tr>

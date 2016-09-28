@@ -7,14 +7,7 @@
 
         // If you need to look up data when opening the page, list it out
         // under "resolve".
-        resolve: {
-          apiLocalExtensions: function(crmApi) {
-            return crmApi('Extension', 'get', {"options": {"limit":0}});
-          },
-          apiRemoteExtensions: function(crmApi) {
-            return crmApi('Extension', 'getremote', {"options": {"limit":0}});
-          }
-        }
+        resolve: {}
       });
     }
   );
@@ -24,44 +17,53 @@
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
   //   apiLocalExtensions, apiRemoteExtensions -- see above.
   //   dialogService -- provided by civicrm.
-  angular.module('extensionsui').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, apiLocalExtensions, apiRemoteExtensions, dialogService) {
+  angular.module('extensionsui').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q) {
 
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('extensionsui');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/extensionsui/crmExt'}); // See: templates/CRM/extensionsui/crmExt.hlp
 
-    $scope.config = CRM.config
-    $scope.extensionsDirectoryLink = '<a href="https://civicrm.org/extensions/' + CRM.config.userFramework +'">'+ ts('FIXME: link to CiviCRM Extensions Directory') + '</a>';
-
-    var localExtensions = apiLocalExtensions;
-    var remoteExtensions = apiRemoteExtensions;
-    console.log('remoteExtensions', remoteExtensions)
-
-    // Separate localExtensions into "installed" and "addnew" collections.
-    var extensions = _.groupBy(localExtensions.values, function(obj) {
-      return (obj.status == 'uninstalled' ? 'addnew' : 'installed');
-    });
-    // Add all remote extensions to the "addnew" collection.
-    extensions.addnew = _.union(extensions.addnew, remoteExtensions.values);
-    // Remove all "installed" extensions from "addnew" collection.
-    installedKeys = _.map(extensions.installed, function(obj){return obj.key});
-    extensions.addnew = _.reject(extensions.addnew, function(obj){
-      return (installedKeys.indexOf(obj.key) >= 0)
-    })
-    // Add crmExt_parentname attribute to each extension
-    extensions.installed = _.each(extensions.installed, function(obj){
-      obj.crmExt_parentname = 'installed'
-    })
-    extensions.addnew = _.each(extensions.addnew, function(obj){
-      obj.crmExt_parentname = 'addnew'
-    })
-
-
-    extensions.installed = _.sortBy(extensions.installed, 'name');
-    extensions.addnew = _.sortBy(extensions.addnew, 'name');
-
-    $scope.extensions = extensions;
+    $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions/%1">CiviCRM Extensions Directory</a> for CiviCRM-related %1 modules, which are not listed here.', {1: CRM.config.userFramework})
     
+    var loadAll = function loadAll() {
+      var apiLocal = crmApi('Extension', 'get', {"options": {"limit":0}})
+      var apiRemote = crmApi('Extension', 'getremote', {"options": {"limit":0}})
+      $q.all([apiLocal, apiRemote])
+      .then(function(values){
+        localExtensions = values[0]
+        remoteExtensions = values[1]
+        // Separate localExtensions into "installed" and "addnew" collections.
+        var extensions = _.groupBy(localExtensions.values, function(obj) {
+          return (obj.status == 'uninstalled' ? 'addnew' : 'installed');
+        });
+        // Add all remote extensions to the "addnew" collection.
+        extensions.addnew = _.union(extensions.addnew, remoteExtensions.values);
+        // Remove all "installed" extensions from "addnew" collection.
+        installedKeys = _.map(extensions.installed, function(obj){return obj.key});
+        extensions.addnew = _.reject(extensions.addnew, function(obj){
+          return (installedKeys.indexOf(obj.key) >= 0)
+        })
+        // Add crmExt_parentname attribute to each extension
+        extensions.installed = _.each(extensions.installed, function(obj){
+          obj.crmExt_parentname = 'installed'
+        })
+        extensions.addnew = _.each(extensions.addnew, function(obj){
+          obj.crmExt_parentname = 'addnew'
+        })
+
+        extensions.installed = _.sortBy(extensions.installed, 'name');
+        extensions.addnew = _.sortBy(extensions.addnew, 'name');
+
+        $scope.extensions = extensions;
+      });
+    };
+    loadAll();
+    
+    $scope.foo = function foo(key) {
+      // FIXME: remove this dev function.
+      $scope.extensions = []
+      setTimeout(function(){loadAll();}, 2000);
+    }
     $scope.upgrade = function upgrade(key) {
       alert('fixme: upgrade('+ key + ')')
     }
@@ -75,10 +77,17 @@
       alert('fixme: disable('+ key + ')')
     }
     $scope.enable = function enable(key) {
-      alert('fixme: enable('+ key + ')')
+      // FIXME: add crm-confirm directove on enable links.
+      CRM.api3('Extension', 'enable', {
+        "keys": key
+      }).then(function(result) {
+        // FIXME: check results
+        // FIXME: set status message to notify user of success.
+        loadAll();
+      });
     }
     $scope.showOverlay = function showOverlay(key, parentname) {
-      var extension = _.findWhere(extensions[parentname], {'key': key})
+      var extension = _.findWhere($scope.extensions[parentname], {'key': key})
       extension.upgrade = function upgrade() {
         return $scope.upgrade(extension.key)
       }
@@ -137,6 +146,8 @@
         })
       );
     };
+
+    console.log('scope', $scope);
 
 
     /**
