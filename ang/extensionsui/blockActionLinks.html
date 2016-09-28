@@ -1,0 +1,4 @@
+<a ng-if="(!extension.status.length || extension.status == 'uninstalled')" class="action-item crm-hover-button" href="" crm-confirm="{message: ts('Install %1 (%2)?', {1: extension.name, 2: extension.key})}" on-yes="install(extension.key);">Install</a>
+<a ng-if="(extension.status == 'disabled')" class="action-item crm-hover-button" href="" crm-confirm="{message: ts('Enable %1 (%2)?', {1: extension.name, 2: extension.key})}" on-yes="enable(extension.key);">Enable</a>
+<a ng-if="(extension.status == 'disabled')" class="action-item crm-hover-button" href="" crm-confirm="{message: ts('Completely uninstall %1 (%2)?', {1: extension.name, 2: extension.key})}" on-yes="uninstall(extension.key);">Uninstall</a>
+<a ng-if="(extension.status == 'installed')" class="action-item crm-hover-button" href="" crm-confirm="{message: ts('Disable %1 (%2)?', {1: extension.name, 2: extension.key})}" on-yes="disable(extension.key);">Disable</a>
