@@ -1,7 +1,7 @@
 <div ng-controller="OverlayCtrl">
   <div id="crm-extensionsui-overlay-main">
     <div crm-ui-debug="model"></div>
-    <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" ng-click="model.upgrade()">Upgrade</a></div>
+    <h4>&nbsp;</h4>
     <table class="crm-info-panel">
       <tr>
         <td class="label">{{ts('Author')}}</td>
@@ -17,7 +17,10 @@
       </tr>
       <tr>
         <td class="label">{{ts('Version')}}</td>
-        <td>{{model.version}}</td>
+        <td>
+          {{model.version}}
+          <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" ng-click="model.upgrade()">Upgrade</a></div>
+        </td>
       </tr>
       <tr>
         <td class="label">{{ts('Released on')}}</td>
@@ -66,9 +69,9 @@
         <td class="label">{{ts('Development stage')}}</td>
         <td>{{model.develStage}}</td>
       </tr>
-      <tr>
+      <tr ng-if="(model.statusLabel.length)">
         <td class="label">{{ts('Status')}}</td>
-        <td>{{model.status}}</td>
+        <td>{{model.statusLabel}}</td>
       </tr>
       <tr>
         <td colspan="2" id="crm-extensionsui-overlay-actions">

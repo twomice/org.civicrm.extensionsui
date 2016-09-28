@@ -6,3 +6,13 @@
   margin: .25em;
   color: #999999 !important;
 }
+
+div#crm-extensionsui-overlay-main {
+  width: 78%;
+  float: left;
+  margin-right: 2%;
+}
+div#crm-extensionsui-overlay-stats, div#crm-extensionsui-overlay-details {
+  width: 18%;
+  float: left;
+}

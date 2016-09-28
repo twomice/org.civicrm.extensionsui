@@ -30,6 +30,9 @@
     var ts = $scope.ts = CRM.ts('extensionsui');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/extensionsui/crmExt'}); // See: templates/CRM/extensionsui/crmExt.hlp
 
+    $scope.config = CRM.config
+    $scope.extensionsDirectoryLink = '<a href="https://civicrm.org/extensions/' + CRM.config.userFramework +'">'+ ts('FIXME: link to CiviCRM Extensions Directory') + '</a>';
+
     var localExtensions = apiLocalExtensions;
     var remoteExtensions = apiRemoteExtensions;
     console.log('remoteExtensions', remoteExtensions)
@@ -101,7 +104,7 @@
         autoOpen: false,
         title: extension.name
       });
-      dialogService.open('fixme', '~/extensionsui/blockExtensionOverlay.html', extension, options);
+      dialogService.open('fixme', '~/extensionsui/OverlayCtrl.html', extension, options);
     }
     $scope.hasAvailableUpgrade = function hasAvailableUpgrade(key) {
       var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key})
