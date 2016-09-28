@@ -30,7 +30,7 @@
      */
     var addActionMethods = function addActionMethods(obj) {
       obj.disable = function disable() {
-        return crmStatus(
+          return crmStatus(
           // Status messages. For defaults, just use "{}"
           {start: ts('Disabling...'), success: ts('Disabled')},
           crmApi('Extension', 'disable', {
@@ -54,13 +54,40 @@
         });
       }
       obj.install = function install() {
-        alert('fixme: install('+ obj.key + ')')
+        return crmStatus(
+          // Status messages. For defaults, just use "{}"
+          {start: ts('Installing...'), success: ts('Installed')},
+          crmApi('Extension', 'install', {
+            "keys": this.key
+          })
+        )
+        .then(function(result) {
+          loadAll();
+        });
       }
       obj.uninstall = function uninstall() {
-        alert('fixme: uninstall('+ obj.key + ')')
+        return crmStatus(
+          // Status messages. For defaults, just use "{}"
+          {start: ts('Uninstalling...'), success: ts('Uninstalled')},
+          crmApi('Extension', 'uninstall', {
+            "keys": this.key
+          })
+        )
+        .then(function(result) {
+          loadAll();
+        });
       }
       obj.upgrade = function upgrade() {
-        alert('fixme: upgrade('+ obj.key + ')')
+        return crmStatus(
+          // Status messages. For defaults, just use "{}"
+          {start: ts('Upgrading...'), success: ts('Upgraded')},
+          crmApi('Extension', 'upgrade', {
+            "keys": this.key
+          })
+        )
+        .then(function(result) {
+          loadAll();
+        });
       }
     }
 
@@ -124,7 +151,7 @@
         autoOpen: false,
         title: extension.name
       });
-      dialogService.open('fixme', '~/extensionsui/OverlayCtrl.html', extension, options);
+      dialogService.open('overlay', '~/extensionsui/OverlayCtrl.html', extension, options);
     }
     $scope.hasAvailableUpgrade = function hasAvailableUpgrade(key) {
       var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key})
