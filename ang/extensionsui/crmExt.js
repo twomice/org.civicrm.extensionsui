@@ -102,11 +102,6 @@
       });
     };
     
-    $scope.foo = function foo(key) {
-      // FIXME: remove this dev function.
-      $scope.extensions = []
-      setTimeout(function(){loadAll();}, 2000);
-    }
     $scope.refresh = function refresh() {
       return crmStatus(
         // Status messages. For defaults, just use "{}"
