@@ -74,15 +74,36 @@
       alert('fixme: uninstall('+ key + ')')
     }
     $scope.disable = function disable(key) {
-      alert('fixme: disable('+ key + ')')
+      return crmStatus(
+        // Status messages. For defaults, just use "{}"
+        {start: ts('Disabling...'), success: ts('Disabled')},
+        crmApi('Extension', 'disable', {
+          "keys": key
+        })
+      )
+      .then(function(result) {
+        loadAll();
+      });
     }
     $scope.enable = function enable(key) {
-      // FIXME: add crm-confirm directove on enable links.
-      CRM.api3('Extension', 'enable', {
-        "keys": key
-      }).then(function(result) {
-        // FIXME: check results
-        // FIXME: set status message to notify user of success.
+      return crmStatus(
+        // Status messages. For defaults, just use "{}"
+        {start: ts('Enabling...'), success: ts('Enabled')},
+        crmApi('Extension', 'enable', {
+          "keys": key
+        })
+      )
+      .then(function(result) {
+        loadAll();
+      });
+    }
+    $scope.refresh = function refresh() {
+      return crmStatus(
+        // Status messages. For defaults, just use "{}"
+        {start: ts('Refreshing...'), success: ts('Refreshed')},
+        crmApi('Extension', 'refresh', {})
+      )
+      .then(function(result) {
         loadAll();
       });
     }

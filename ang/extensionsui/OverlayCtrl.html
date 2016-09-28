@@ -74,11 +74,7 @@
         <td>{{model.statusLabel}}</td>
       </tr>
       <tr>
-        <td colspan="2" id="crm-extensionsui-overlay-actions">
-          <a ng-if="(!model.status.length || model.status == 'uninstalled')" class="action-item crm-hover-button" href="" ng-click="model.install()">Install</a>
-          <a ng-if="(model.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="model.enable()">Enable</a>
-          <a ng-if="(model.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="model.uninstall(model.key)">Uninstall</a>
-          <a ng-if="(model.status == 'installed')" class="action-item crm-hover-button" href="" ng-click="model.disable(model.key)">Disable</a>
+        <td colspan="2" id="crm-extensionsui-overlay-actions" ng-include="'~/extensionsui/blockActionLinks.html'" ng-init="extension = value">
         </td>
       </tr>
     </table>

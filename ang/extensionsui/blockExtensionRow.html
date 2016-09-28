@@ -12,9 +12,5 @@
 <td ng-if="(viewName == 'installed')">
   {{value.statusLabel}}
 </td>
-<td>
-  <a ng-if="(!value.status.length || value.status == 'uninstalled')" class="action-item crm-hover-button" href="" ng-click="install(value.key)">Install</a>
-  <a ng-if="(value.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="enable(value.key)">Enable</a>
-  <a ng-if="(value.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="uninstall(value.key)">Uninstall</a>
-  <a ng-if="(value.status == 'installed')" class="action-item crm-hover-button" href="" ng-click="disable(value.key)">Disable</a>
+<td ng-include="'~/extensionsui/blockActionLinks.html'" ng-init="extension = value">
 </td>
