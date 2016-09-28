@@ -1,4 +1,92 @@
-<div>
-  <span>can you see me?</span>
-  <div crm-ui-debug="model"></div>
+<div ng-controller="OverlayCtrl">
+  <div id="crm-extensionsui-overlay-main">
+    <div crm-ui-debug="model"></div>
+    <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" ng-click="model.upgrade()">Upgrade</a></div>
+    <table class="crm-info-panel">
+      <tr>
+        <td class="label">{{ts('Author')}}</td>
+        <td>{{model.maintainer.author}} <span ng-if="(model.maintainer.email.length)">({{model.maintainer.email}})</span></td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Description')}}</td>
+        <td>{{model.description}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Development stage')}}</td>
+        <td>{{model.develStage}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Version')}}</td>
+        <td>{{model.version}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Released on')}}</td>
+        <td>{{model.releaseDate}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Compatible with')}}</td>
+        <!-- td><span ng-repeat="(key, value) in model.compatibility.ver">{{value}}&nbsp;</span></td -->
+        <td>{{model.compatibility.ver.join(', ')}}</td>
+      </tr>
+      <tr ng-repeat="(key, value) in model.urls">
+        <td class="label">{{ts(key)}}</td>
+        <td>{{value}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Comments')}}</td>
+        <td>{{model.comments}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('License')}}</td>
+        <td>{{model.license}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Canonical name')}}</td>
+        <td>{{model.key}}</td>
+      </tr>
+      <tr ng-show="model.downloadUrl">
+        <td class="label">{{ts('Download location')}}</td>
+        <td>{{model.downloadUrl}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Local path')}}</td>
+        <td>{{model.path}}</td>
+      </tr>
+    </table>
+
+  </div>
+  <div id="crm-extensionsui-overlay-details">
+    <h4>Details</h4>
+    <table class="crm-info-panel">
+      <tr>
+        <td class="label">{{ts('Version')}}</td>
+        <td>{{model.version}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Development stage')}}</td>
+        <td>{{model.develStage}}</td>
+      </tr>
+      <tr>
+        <td class="label">{{ts('Status')}}</td>
+        <td>{{model.status}}</td>
+      </tr>
+      <tr>
+        <td colspan="2" id="crm-extensionsui-overlay-actions">
+          <a ng-if="(!model.status.length || model.status == 'uninstalled')" class="action-item crm-hover-button" href="" ng-click="model.install()">Install</a>
+          <a ng-if="(model.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="model.enable()">Enable</a>
+          <a ng-if="(model.status == 'disabled')" class="action-item crm-hover-button" href="" ng-click="model.uninstall(model.key)">Uninstall</a>
+          <a ng-if="(model.status == 'installed')" class="action-item crm-hover-button" href="" ng-click="model.disable(model.key)">Disable</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="crm-extensionsui-overlay-stats">
+    <h4>Statistics</h4>
+    <table class="crm-info-panel">
+      <tr>
+        <td class="label">{{ts('Author')}}</td>
+        <td>{{model.maintainer.author}} <span ng-if="(model.maintainer.email.length)">({{model.maintainer.email}})</span></td>
+      </tr>
+    </table>
+  </div>
 </div>

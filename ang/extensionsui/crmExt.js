@@ -1,6 +1,5 @@
 (function(angular, $, _) {
 
-  
   angular.module('extensionsui').config(function($routeProvider) {
       $routeProvider.when('/extensions', {
         controller: 'ExtensionsuicrmExt',
@@ -23,7 +22,8 @@
   // The controller uses *injection*. This default injects a few things:
   //   $scope -- This is the set of variables shared between JS and HTML.
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
-  //   apiLocalExtensions -- The current contact, defined above in config().
+  //   apiLocalExtensions, apiRemoteExtensions -- see above.
+  //   dialogService -- provided by civicrm.
   angular.module('extensionsui').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, apiLocalExtensions, apiRemoteExtensions, dialogService) {
 
     // The ts() and hs() functions help load strings for this module.
@@ -76,6 +76,27 @@
     }
     $scope.showOverlay = function showOverlay(key, parentname) {
       var extension = _.findWhere(extensions[parentname], {'key': key})
+      extension.upgrade = function upgrade() {
+        return $scope.upgrade(extension.key)
+      }
+      extension.install = function install() {
+        return $scope.install(extension.key)
+      }
+      extension.uninstall = function uninstall() {
+        return $scope.uninstall(extension.key)
+      }
+      extension.disable = function disable() {
+        return $scope.disable(extension.key)
+      }
+      extension.enable = function enable() {
+        return $scope.enable(extension.key)
+      }
+      extension.availableUpgradeVersion = function availableUpgradeVersion() {
+        return $scope.availableUpgradeVersion(extension.key)
+      }
+      extension.hasAvailableUpgrade = function hasAvailableUpgrade() {
+        return $scope.hasAvailableUpgrade(extension.key)
+      }
       var options = CRM.utils.adjustDialogDefaults({
         autoOpen: false,
         title: extension.name

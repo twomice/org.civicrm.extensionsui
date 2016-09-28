@@ -1,1 +1,8 @@
 /* Add any CSS rules for Angular module "extensionsui" */
+.crm-extensions-upgrade {
+  background: #ffb;
+  border: 1px solid #000;
+  text-align: center;
+  margin: .25em;
+  color: #999999 !important;
+}
