@@ -4,7 +4,7 @@
 <div class="crm-container">
   <div crm-ui-tab-set>
     <div id="crm-extensionsui-tab-installed" crm-ui-tab crm-title="ts('Installed')">
-      <table>
+      <table class="display">
         <thead>
           <tr>
             <th>{{ts('Extension')}}</th>
@@ -14,8 +14,8 @@
             <th></th>
           </tr>
         </thead>
-        <tbody ng-repeat="(key, value) in extensions.installed">
-          <tr ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
+        <tbody>
+          <tr ng-repeat="(key, value) in extensions.installed" ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
         </tbody>
       </table>
     </div>
@@ -30,8 +30,8 @@
             <th></th>
           </tr>
         </thead>
-        <tbody ng-repeat="(key, value) in extensions.addnew">
-          <tr ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
+        <tbody>
+          <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
         </tbody>
       </table>
     </div>
