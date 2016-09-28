@@ -1,8 +1,6 @@
 <h1 crm-page-title>{{ts('CiviCRM Extensions')}}</h1>
-<a href="" ng-click="foo()">foo</a>
-<div class="action-link">
-  <button crm-icon="fa-refresh" ng-click="refresh();">Refresh</button>
-</div>
+<a href="" ng-click="foo('FIXME')">foo</a>
+<div ng-include="'~/extensionsui/blockPageActionLinks.html'"></div>
 <div class="crm-container">
     <div crm-ui-accordion="{title: ts('Installed')}">
       <table>
