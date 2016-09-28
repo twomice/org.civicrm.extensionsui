@@ -1,7 +1,7 @@
 <td>
   <a ng-click="showOverlay(value.key, value.crmExt_parentname)" href="">{{value.name}}</a>
   <br/>{{value.maintainer.author}} <span ng-if="(value.maintainer.email.length)">({{value.maintainer.email}})</span>
-  <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(value.key))">Version {{availableUpgradeVersion(value.key)}} is available. <a href="" ng-click="upgrade(value.key)">Upgrade</a></div>
+  <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(value.key))">Version {{availableUpgradeVersion(value.key)}} is available. <a href="" ng-click="value.upgrade()">Upgrade</a></div>
 </td>
 <td>
   {{value.version}}

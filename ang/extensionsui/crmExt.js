@@ -24,7 +24,49 @@
     var hs = $scope.hs = crmUiHelp({file: 'CRM/extensionsui/crmExt'}); // See: templates/CRM/extensionsui/crmExt.hlp
 
     $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions/%1">CiviCRM Extensions Directory</a> for CiviCRM-related %1 modules, which are not listed here.', {1: CRM.config.userFramework})
-    
+
+    /**
+     * Add action-link methods to the given extension object.
+     */
+    var addActionMethods = function addActionMethods(obj) {
+      obj.disable = function disable() {
+        return crmStatus(
+          // Status messages. For defaults, just use "{}"
+          {start: ts('Disabling...'), success: ts('Disabled')},
+          crmApi('Extension', 'disable', {
+            "keys": this.key
+          })
+        )
+        .then(function(result) {
+          loadAll();
+        });
+      }
+      obj.enable = function enable() {
+        return crmStatus(
+          // Status messages. For defaults, just use "{}"
+          {start: ts('Enabling...'), success: ts('Enabled')},
+          crmApi('Extension', 'enable', {
+            "keys": this.key
+          })
+        )
+        .then(function(result) {
+          loadAll();
+        });
+      }
+      obj.install = function install() {
+        alert('fixme: install('+ obj.key + ')')
+      }
+      obj.uninstall = function uninstall() {
+        alert('fixme: uninstall('+ obj.key + ')')
+      }
+      obj.upgrade = function upgrade() {
+        alert('fixme: upgrade('+ obj.key + ')')
+      }
+    }
+
+    /**
+     * Reload all data from the server.
+     */
     var loadAll = function loadAll() {
       var apiLocal = crmApi('Extension', 'get', {"options": {"limit":0}})
       var apiRemote = crmApi('Extension', 'getremote', {"options": {"limit":0}})
@@ -46,9 +88,11 @@
         // Add crmExt_parentname attribute to each extension
         extensions.installed = _.each(extensions.installed, function(obj){
           obj.crmExt_parentname = 'installed'
+          addActionMethods(obj)
         })
         extensions.addnew = _.each(extensions.addnew, function(obj){
           obj.crmExt_parentname = 'addnew'
+          addActionMethods(obj)
         })
 
         extensions.installed = _.sortBy(extensions.installed, 'name');
@@ -57,45 +101,11 @@
         $scope.extensions = extensions;
       });
     };
-    loadAll();
     
     $scope.foo = function foo(key) {
       // FIXME: remove this dev function.
       $scope.extensions = []
       setTimeout(function(){loadAll();}, 2000);
-    }
-    $scope.upgrade = function upgrade(key) {
-      alert('fixme: upgrade('+ key + ')')
-    }
-    $scope.install = function install(key) {
-      alert('fixme: install('+ key + ')')
-    }
-    $scope.uninstall = function uninstall(key) {
-      alert('fixme: uninstall('+ key + ')')
-    }
-    $scope.disable = function disable(key) {
-      return crmStatus(
-        // Status messages. For defaults, just use "{}"
-        {start: ts('Disabling...'), success: ts('Disabled')},
-        crmApi('Extension', 'disable', {
-          "keys": key
-        })
-      )
-      .then(function(result) {
-        loadAll();
-      });
-    }
-    $scope.enable = function enable(key) {
-      return crmStatus(
-        // Status messages. For defaults, just use "{}"
-        {start: ts('Enabling...'), success: ts('Enabled')},
-        crmApi('Extension', 'enable', {
-          "keys": key
-        })
-      )
-      .then(function(result) {
-        loadAll();
-      });
     }
     $scope.refresh = function refresh() {
       return crmStatus(
@@ -109,21 +119,6 @@
     }
     $scope.showOverlay = function showOverlay(key, parentname) {
       var extension = _.findWhere($scope.extensions[parentname], {'key': key})
-      extension.upgrade = function upgrade() {
-        return $scope.upgrade(extension.key)
-      }
-      extension.install = function install() {
-        return $scope.install(extension.key)
-      }
-      extension.uninstall = function uninstall() {
-        return $scope.uninstall(extension.key)
-      }
-      extension.disable = function disable() {
-        return $scope.disable(extension.key)
-      }
-      extension.enable = function enable() {
-        return $scope.enable(extension.key)
-      }
       extension.availableUpgradeVersion = function availableUpgradeVersion() {
         return $scope.availableUpgradeVersion(extension.key)
       }
@@ -293,6 +288,10 @@
           return null
       }
     }
+
+  // Initially load all data from server.
+  loadAll();
+
   });
 
 })(angular, CRM.$, CRM._);
