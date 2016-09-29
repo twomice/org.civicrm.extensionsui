@@ -58,17 +58,34 @@
         });
       }
       obj.install = function install() {
-        alert('FIXME: download first, but only if not on disk already ')
+        var promise;
+        if (_.isUndefined(this.path) || _.isEmpty(this.path)) {
+          // Extension has no path, meaning it doesn't exist on disk.
+          // First download it, then install it.
+          promise = crmApi('Extension', 'download', {
+            "key": this.key
+          })
+          .then(function() {
+            crmApi('Extension', 'install', {
+              "keys": this.key
+            })
+          });
+        }
+        else {
+          // Extension has a path, meaning it does exist on disk.
+          // Just install it.
+          promise = crmApi('Extension', 'install', {
+            "keys": this.key
+          });
+        }
         return crmStatus(
           // Status messages. For defaults, just use "{}"
           {start: ts('Installing...'), success: ts('Installed')},
-          crmApi('Extension', 'install', {
-            "keys": this.key
-          })
+          promise
         )
         .then(function(result) {
           loadAll();
-        });
+        })
       }
       obj.uninstall = function uninstall() {
         return crmStatus(
