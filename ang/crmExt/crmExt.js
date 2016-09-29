@@ -373,8 +373,8 @@
       }
     }
 
-  // Initially load all data from server.
-  loadAll();
+    // Initially load all data from server.
+    loadAll();
 
   });
 

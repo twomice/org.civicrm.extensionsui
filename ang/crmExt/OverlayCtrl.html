@@ -69,11 +69,6 @@
   </div>
   <div id="crmExt-overlay-stats">
     <h4>Statistics</h4>
-    <table class="crm-info-panel">
-      <tr>
-        <td class="label">{{ts('Author')}}</td>
-        <td>{{model.maintainer.author}} <span ng-if="(model.maintainer.email.length)">({{model.maintainer.email}})</span></td>
-      </tr>
-    </table>
+    <FIXME-ng-include src="'https://statistics.civicrm.org/snippet.php?id=1&key='+ model.key +'&version=FIXME-version&lang=FIXME-lang'"></ng-include>
   </div>
 </div>
