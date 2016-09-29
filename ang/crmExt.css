@@ -1,4 +1,4 @@
-/* Add any CSS rules for Angular module "extensionsui" */
+/* Add any CSS rules for Angular module "crmExt" */
 .crm-extensions-upgrade {
   background: #ffb;
   border: 1px solid #000;
@@ -7,15 +7,15 @@
   color: #999999 !important;
 }
 
-div#crm-extensionsui-overlay-main {
+div#crmExt-overlay-main {
   width: 78%;
   float: left;
   margin-right: 2%;
 }
-div#crm-extensionsui-overlay-stats, div#crm-extensionsui-overlay-details {
+div#crmExt-overlay-stats, div#crmExt-overlay-details {
   width: 18%;
   float: left;
 }
-td#crm-extensionsui-overlay-actions {
+td#crmExt-overlay-actions {
   text-align: right;
 }
