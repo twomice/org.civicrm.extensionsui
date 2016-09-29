@@ -1,9 +1,9 @@
 (function(angular, $, _) {
 
-  angular.module('extensionsui').config(function($routeProvider) {
+  angular.module('crmExt').config(function($routeProvider) {
       $routeProvider.when('/extensions', {
         controller: 'ExtensionsuicrmExt',
-        templateUrl: '~/extensionsui/crmExt.html',
+        templateUrl: '~/crmExt/crmExt.html',
 
         // If you need to look up data when opening the page, list it out
         // under "resolve".
@@ -18,11 +18,11 @@
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
   //   apiLocalExtensions, apiRemoteExtensions -- see above.
   //   dialogService -- provided by civicrm.
-  angular.module('extensionsui').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout) {
+  angular.module('crmExt').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout) {
 
     // The ts() and hs() functions help load strings for this module.
-    var ts = $scope.ts = CRM.ts('extensionsui');
-    var hs = $scope.hs = crmUiHelp({file: 'CRM/extensionsui/crmExt'}); // See: templates/CRM/extensionsui/crmExt.hlp
+    var ts = $scope.ts = CRM.ts('crmExt');
+    var hs = $scope.hs = crmUiHelp({file: 'CRM/crmExt/crmExt'}); // See: templates/CRM/crmExt/crmExt.hlp
 
     $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework})
 
@@ -162,7 +162,7 @@
         autoOpen: false,
         title: extension.name
       });
-      dialogService.open('crmExt-overlay', '~/extensionsui/OverlayCtrl.html', extension, options)
+      dialogService.open('crmExt-overlay', '~/crmExt/OverlayCtrl.html', extension, options)
 
       var setOverlayButtons = function setOverlayButtons() {
         var buttons = []

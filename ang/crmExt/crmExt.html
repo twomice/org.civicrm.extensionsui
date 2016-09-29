@@ -1,8 +1,8 @@
 <h1 crm-page-title>{{ts('CiviCRM Extensions')}}</h1>
-<div ng-include="'~/extensionsui/BlockPageActionLinks.html'"></div>
+<div ng-include="'~/crmExt/BlockPageActionLinks.html'"></div>
 <div class="crm-container">
   <div crm-ui-tab-set>
-    <div id="crm-extensionsui-tab-installed" crm-ui-tab crm-title="ts('Installed')">
+    <div id="crmExt-tab-installed" crm-ui-tab crm-title="ts('Installed')">
       <table class="display">
         <thead>
           <tr>
@@ -14,11 +14,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="(key, value) in extensions.installed" ng-include="'~/extensionsui/BlockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
+          <tr ng-repeat="(key, value) in extensions.installed" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
         </tbody>
       </table>
     </div>
-    <div id="crm-extensionsui-tab-addnew" crm-ui-tab crm-title="ts('Add New')">
+    <div id="crmExt-tab-addnew" crm-ui-tab crm-title="ts('Add New')">
       <div class="help" ng-bind-html="addNewHelpText"></div>
       <table>
         <thead>
@@ -35,7 +35,7 @@
             indicating which columns should be displayed.
           <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
           -->
-          <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/extensionsui/BlockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
+          <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
         </tbody>
       </table>
     </div>
