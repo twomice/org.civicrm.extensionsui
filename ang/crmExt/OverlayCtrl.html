@@ -11,7 +11,7 @@
         <td class="label">{{ts('Description')}}</td>
         <td>
           {{model.description}}
-          <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" ng-click="model.upgrade()">Upgrade</a></div>
+          <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.name, 2: model.key})}" on-yes="model.upgrade();">Upgrade</a></div>
         </td>
       </tr>
       <tr>

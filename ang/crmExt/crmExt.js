@@ -102,7 +102,7 @@
       obj.upgrade = function upgrade() {
         return crmStatus(
           // Status messages. For defaults, just use "{}"
-          {start: ts('Updating code...'), success: ts('Updated code')},
+          {start: ts('Upgrading...'), success: ts('Upgraded')},
           crmApi('Extension', 'download', {
             "key": this.key
           })
@@ -184,8 +184,11 @@
           buttons.push({
             text: ts('Install'),
             click: function() {
-              extension.install()
-              dialogService.close('crmExt-overlay')
+              CRM.confirm({message: ts('Install <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})})
+              .on('crmConfirm:yes', function() {
+                extension.install();
+                dialogService.close('crmExt-overlay');
+              });
             }
           })
         }
@@ -193,8 +196,11 @@
           buttons.push({
             text: ts('Enable'),
             click: function() {
-              extension.enable();
-              dialogService.close('crmExt-overlay');
+              CRM.confirm({message: ts('Enable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})})
+              .on('crmConfirm:yes', function() {
+                extension.enable();
+                dialogService.close('crmExt-overlay');
+              });
             }
           })
         }
@@ -202,8 +208,11 @@
           buttons.push({
             text: ts('Uninstall'),
             click: function() {
-              extension.uninstall();
-              dialogService.close('crmExt-overlay');
+              CRM.confirm({message: ts('Completely uninstall <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})})
+              .on('crmConfirm:yes', function() {
+                extension.uninstall();
+                dialogService.close('crmExt-overlay');
+              });
             }
           })
         }
@@ -211,8 +220,11 @@
           buttons.push({
             text: ts('Disable'),
             click: function() {
-              extension.disable();
-              dialogService.close('crmExt-overlay');
+              CRM.confirm({message: ts('Disable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})})
+              .on('crmConfirm:yes', function() {
+                extension.disable();
+                dialogService.close('crmExt-overlay');
+              });
             }
           }
         )}
