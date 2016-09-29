@@ -206,7 +206,7 @@
           text: ts('Cancel'),
           icons: {primary: 'fa-times'},
           click: function() {
-            dialogService.cancel('selectWinnerDialog');
+            dialogService.cancel('crmExt-overlay');
           }
         })
         dialogService.setButtons('crmExt-overlay', buttons);
