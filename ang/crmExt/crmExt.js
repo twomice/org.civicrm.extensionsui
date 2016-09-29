@@ -100,21 +100,16 @@
         });
       }
       obj.upgrade = function upgrade() {
-        // FIXME: Move both api calls under one status. no need to have two statuses.
         return crmStatus(
           // Status messages. For defaults, just use "{}"
           {start: ts('Updating code...'), success: ts('Updated code')},
           crmApi('Extension', 'download', {
             "key": this.key
           })
-        )
-        .then(function(result) {
-          return crmStatus(
-            // Status messages. For defaults, just use "{}"
-            {start: ts('Upgrading...'), success: ts('Upgraded')},
+          .then(function(){
             crmApi('Extension', 'upgrade', {})
-          )
-        })
+          })
+        )
         .then(function(result) {
           loadAll();
         });
