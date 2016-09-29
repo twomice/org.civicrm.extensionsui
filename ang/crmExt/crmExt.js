@@ -246,9 +246,6 @@
       );
     };
 
-    console.log('scope', $scope);
-
-
     /**
      * JavaScript implementation of of PHP's version_compare().
      * Part of the Locutus project; used here under MIT License:
