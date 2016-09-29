@@ -1,5 +1,5 @@
 <h1 crm-page-title>{{ts('CiviCRM Extensions')}}</h1>
-<div ng-include="'~/extensionsui/blockPageActionLinks.html'"></div>
+<div ng-include="'~/extensionsui/BlockPageActionLinks.html'"></div>
 <div class="crm-container">
   <div crm-ui-tab-set>
     <div id="crm-extensionsui-tab-installed" crm-ui-tab crm-title="ts('Installed')">
@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="(key, value) in extensions.installed" ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
+          <tr ng-repeat="(key, value) in extensions.installed" ng-include="'~/extensionsui/BlockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
         </tbody>
       </table>
     </div>
@@ -35,7 +35,7 @@
             indicating which columns should be displayed.
           <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
           -->
-          <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
+          <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/extensionsui/BlockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
         </tbody>
       </table>
     </div>
