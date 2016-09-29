@@ -152,9 +152,6 @@
           addActionMethods(obj)
         })
 
-        extensions.installed = _.sortBy(extensions.installed, 'name');
-        extensions.addnew = _.sortBy(extensions.addnew, 'name');
-
         $scope.extensions = extensions;
       });
     };
@@ -263,7 +260,7 @@
       }
       return remoteExtension.version
     }
-    
+
     $scope.save = function save() {
       return crmStatus(
         // Status messages. For defaults, just use "{}"

@@ -3,29 +3,31 @@
 <div class="crm-container">
   <div crm-ui-tab-set>
     <div id="crmExt-tab-installed" crm-ui-tab crm-title="ts('Installed')">
+      <span crm-ui-order="{var: 'installedOrder', 'defaults': ['name'] }"></span>
       <table class="display">
         <thead>
           <tr>
-            <th>{{ts('Extension')}}</th>
-            <th>{{ts('Version')}}</th>
-            <th>{{ts('Development Stage')}}</th>
-            <th>{{ts('Status')}}</th>
+            <th><a href="" crm-ui-order-by="[installedOrder,'name']">{{ts('Extension')}}</a></th>
+            <th><a href="" crm-ui-order-by="[installedOrder,'version']">{{ts('Version')}}</a></th>
+            <th><a href="" crm-ui-order-by="[installedOrder,'develStage']">{{ts('Development Stage')}}</a></th>
+            <th><a href="" crm-ui-order-by="[installedOrder,'status']">{{ts('Status')}}</a></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="(key, value) in extensions.installed" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
+          <tr ng-repeat="(key, value) in extensions.installed | orderBy:installedOrder.get()" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
         </tbody>
       </table>
     </div>
     <div id="crmExt-tab-addnew" crm-ui-tab crm-title="ts('Add New')">
       <div class="help" ng-bind-html="addNewHelpText"></div>
+      <span crm-ui-order="{var: 'addnewOrder', 'defaults': ['name'] }"></span>
       <table>
         <thead>
           <tr>
-            <th>{{ts('Extension')}}</th>
-            <th>{{ts('Version')}}</th>
-            <th>{{ts('Development Stage')}}</th>
+            <th><a href="" crm-ui-order-by="[addnewOrder,'name']">{{ts('Extension')}}</a></th>
+            <th><a href="" crm-ui-order-by="[addnewOrder,'version']">{{ts('Version')}}</a></th>
+            <th><a href="" crm-ui-order-by="[addnewOrder,'develStage']">{{ts('Development Stage')}}</a></th>
             <th></th>
           </tr>
         </thead>
@@ -35,7 +37,7 @@
             indicating which columns should be displayed.
           <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
           -->
-          <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
+          <tr ng-repeat="(key, value) in extensions.addnew | orderBy:addnewOrder.get()" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
         </tbody>
       </table>
     </div>
