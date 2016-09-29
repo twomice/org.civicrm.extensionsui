@@ -9,16 +9,8 @@
       </tr>
       <tr>
         <td class="label">{{ts('Description')}}</td>
-        <td>{{model.description}}</td>
-      </tr>
-      <tr>
-        <td class="label">{{ts('Development stage')}}</td>
-        <td>{{model.develStage}}</td>
-      </tr>
-      <tr>
-        <td class="label">{{ts('Version')}}</td>
         <td>
-          {{model.version}}
+          {{model.description}}
           <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" ng-click="model.upgrade()">Upgrade</a></div>
         </td>
       </tr>
