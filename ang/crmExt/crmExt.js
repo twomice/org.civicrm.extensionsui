@@ -130,13 +130,18 @@
         var extensions = _.groupBy(localExtensions.values, function(obj) {
           return (obj.status == 'uninstalled' ? 'addnew' : 'installed');
         });
-        // Add all remote extensions to the "addnew" collection.
-        extensions.addnew = _.union(extensions.addnew, remoteExtensions.values);
         // Remove all "installed" extensions from "addnew" collection.
         installedKeys = _.map(extensions.installed, function(obj){return obj.key});
         extensions.addnew = _.reject(extensions.addnew, function(obj){
           return (installedKeys.indexOf(obj.key) >= 0)
         })
+        // Create a collection of remote extensions which are not also local.
+        localKeys = _.map(localExtensions.values, function(obj){return obj.key});
+        remoteOnly = _.reject(remoteExtensions.values, function(obj){
+          return (localKeys.indexOf(obj.key) >= 0);
+        })
+        // Add all remoteOnly extensions to the "addnew" collection.
+        extensions.addnew = _.union(extensions.addnew, remoteOnly);
         // Add crmExt_parentname attribute to each extension
         extensions.installed = _.each(extensions.installed, function(obj){
           obj.crmExt_parentname = 'installed'
