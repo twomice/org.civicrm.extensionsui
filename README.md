@@ -9,6 +9,9 @@ This extension aims to implement UI improvements described at
 At time of writing, this patch has not been merged into core, but is required
 for this extension.
 
+## Usage
+After enabling this extension, navigate to http://[your.site]/civicrm/a/#/extensions/.
+This UI will exist alongside the core "CiviCRM Extensions" UI.
 
 ## Known issues
 1. **Display of session status messages:**  Where this extension uses AJAX to
