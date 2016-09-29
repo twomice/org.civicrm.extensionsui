@@ -12,21 +12,23 @@
     }
   );
 
+  // FIXME: ensure this comment block is accurate.
   // The controller uses *injection*. This default injects a few things:
   //   $scope -- This is the set of variables shared between JS and HTML.
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
   //   apiLocalExtensions, apiRemoteExtensions -- see above.
   //   dialogService -- provided by civicrm.
-  angular.module('extensionsui').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q) {
+  angular.module('extensionsui').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout) {
 
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('extensionsui');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/extensionsui/crmExt'}); // See: templates/CRM/extensionsui/crmExt.hlp
 
-    $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions/%1">CiviCRM Extensions Directory</a> for CiviCRM-related %1 modules, which are not listed here.', {1: CRM.config.userFramework})
+    $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework})
 
     /**
      * Add action-link methods to the given extension object.
+     * FIXME: note here how this is used, what's expected value of obj, etc.
      */
     var addActionMethods = function addActionMethods(obj) {
       obj.disable = function disable() {
@@ -54,6 +56,7 @@
         });
       }
       obj.install = function install() {
+        alert('FIXME: download first, but only if not on disk already ')
         return crmStatus(
           // Status messages. For defaults, just use "{}"
           {start: ts('Installing...'), success: ts('Installed')},
@@ -78,6 +81,7 @@
         });
       }
       obj.upgrade = function upgrade() {
+        // FIXME: Move both api calls under one status. no need to have two statuses.
         return crmStatus(
           // Status messages. For defaults, just use "{}"
           {start: ts('Updating code...'), success: ts('Updated code')},
@@ -158,7 +162,57 @@
         autoOpen: false,
         title: extension.name
       });
-      dialogService.open('overlay', '~/extensionsui/OverlayCtrl.html', extension, options);
+      dialogService.open('crmExt-overlay', '~/extensionsui/OverlayCtrl.html', extension, options)
+
+      var setOverlayButtons = function setOverlayButtons() {
+        var buttons = []
+        if (_.isUndefined(extension.status) || _.isEmpty(extension.status) || extension.status == 'uninstalled') {
+          buttons.push({
+            text: ts('Install'),
+            click: function() {
+              extension.install()
+              dialogService.close('crmExt-overlay')
+            }
+          })
+        }
+        if (extension.status == 'disabled') {
+          buttons.push({
+            text: ts('Enable'),
+            click: function() {
+              extension.enable();
+              dialogService.close('crmExt-overlay');
+            }
+          })
+        }
+        if (extension.status == 'disabled') {
+          buttons.push({
+            text: ts('Uninstall'),
+            click: function() {
+              extension.uninstall();
+              dialogService.close('crmExt-overlay');
+            }
+          })
+        }
+        if (extension.status == 'installed') {
+          buttons.push({
+            text: ts('Disable'),
+            click: function() {
+              extension.disable();
+              dialogService.close('crmExt-overlay');
+            }
+          }
+        )}
+        buttons.push({
+          text: ts('Cancel'),
+          icons: {primary: 'fa-times'},
+          click: function() {
+            dialogService.cancel('selectWinnerDialog');
+          }
+        })
+        dialogService.setButtons('crmExt-overlay', buttons);
+      }
+      $timeout(setOverlayButtons)
+
     }
     $scope.hasAvailableUpgrade = function hasAvailableUpgrade(key) {
       var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key})
@@ -202,6 +256,7 @@
      *
      * FIXME: CiviCRM probably has an existing way of doing this, or if not,
      * this function probaby could/should be written in a better place.
+     * FIXME: Move this to an angulaar service within this extension.
      */
     var crmExt_version_compare = function (v1, v2, operator) { // eslint-disable-line camelcase
       //       discuss at: http://locutus.io/php/version_compare/

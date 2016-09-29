@@ -30,6 +30,11 @@
           </tr>
         </thead>
         <tbody>
+          <!--
+          FIXME: Consider creating a directive that would handle the ng-include and ng-init, probably taking an argument
+            indicating which columns should be displayed.
+          <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
+          -->
           <tr ng-repeat="(key, value) in extensions.addnew" ng-include="'~/extensionsui/blockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
         </tbody>
       </table>
