@@ -5,9 +5,7 @@ This extension aims to implement UI improvements described at
 
 
 ## Requirements
-1. <https://github.com/civicrm/civicrm-core/pull/9141>:
-At time of writing, this patch has not been merged into core, but is required
-for this extension.
+1. CiviCRM version 4.7.13 or greater, or 4.7.x plus this [small core patch](https://github.com/civicrm/civicrm-core/pull/9141).
 
 ## Usage
 After enabling this extension, navigate to http://[your.site]/civicrm/a/#/extensions/.
