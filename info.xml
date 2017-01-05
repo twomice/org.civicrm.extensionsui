@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension key="org.civicrm.extensionsui" type="module">
   <file>extensionsui</file>
-  <name>CiviCRM Extensions UI</name>
+  <name>CiviCRM Extensions Manager</name>
   <description>Provides improved interface for in-app extension management.</description>
   <license>GPL-3.0</license>
   <maintainer>

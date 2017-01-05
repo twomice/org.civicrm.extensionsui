@@ -1,4 +1,4 @@
-# CiviCRM Extensions UI, Improved
+# CiviCRM Extensions Manager
 
 This extension aims to implement UI improvements described at
 <https://wiki.civicrm.org/confluence/display/CRM/Extensions+in-app+UI+improvements>.
