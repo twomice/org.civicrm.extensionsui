@@ -19,3 +19,8 @@ div#crmExt-overlay-stats, div#crmExt-overlay-details {
 td#crmExt-overlay-actions {
   text-align: right;
 }
+
+.crm-ext-detail-link {
+  color: #2786c2;
+  cursor: pointer;
+}

@@ -1,5 +1,5 @@
 <td>
-  <a ng-click="showOverlay(value.key, value.crmExt_parentname)" href="">{{value.name}}</a>
+  <span ng-click="showOverlay(value.key, value.crmExt_parentname)" class="crm-ext-detail-link">{{value.name}}</span>
   <br/>{{value.maintainer.author}} <span ng-if="(value.maintainer.email.length)">({{value.maintainer.email}})</span>
   <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(value.key))">Version {{availableUpgradeVersion(value.key)}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: value.name, 2: value.key})}" on-yes="value.upgrade();">Upgrade</a></div>
 </td>
