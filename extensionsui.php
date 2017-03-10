@@ -153,3 +153,19 @@ function extensionsui_civicrm_navigationMenu(&$menu) {
   ));
   _extensionsui_civix_navigationMenu($menu);
 } // */
+
+/**
+ * Implements hook_civicrm_navigationMenu().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
+ *
+ */
+function extensionsui_civicrm_navigationMenu(&$menu) {
+  array_walk_recursive($menu, '_extensionsui_walk_navigationMenu');
+}
+
+function _extensionsui_walk_navigationMenu(&$item, $key) {
+  if ($key == 'url' && $item == 'civicrm/admin/extensions?reset=1') {
+    $item = 'civicrm/a/#/extensions';
+  }
+}
