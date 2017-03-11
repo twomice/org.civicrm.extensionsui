@@ -15,7 +15,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="(key, value) in extensions.installed | orderBy:installedOrder.get()" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'installed'"></tr>
+          <tr 
+            ng-repeat="(key, value) in extensions.installed | orderBy:installedOrder.get()"
+            ng-class="'crmExt-blockExtensionRow-status-' + value.status"
+            ng-include="'~/crmExt/BlockExtensionRow.html'"
+            ng-init="viewName = 'installed'"
+          ></tr>
         </tbody>
       </table>
     </div>
@@ -37,7 +42,12 @@
             indicating which columns should be displayed.
           <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
           -->
-          <tr ng-repeat="(key, value) in extensions.addnew | orderBy:addnewOrder.get()" ng-include="'~/crmExt/BlockExtensionRow.html'" ng-init="viewName = 'addnew'"></tr>
+          <tr
+            ng-repeat="(key, value) in extensions.addnew | orderBy:addnewOrder.get()"
+            ng-class="'crmExt-blockExtensionRow-status-' + value.status"
+            ng-include="'~/crmExt/BlockExtensionRow.html'"
+            ng-init="viewName = 'addnew'"
+          ></tr>
         </tbody>
       </table>
     </div>

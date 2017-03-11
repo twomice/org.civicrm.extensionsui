@@ -24,3 +24,7 @@ td#crmExt-overlay-actions {
   color: #2786c2;
   cursor: pointer;
 }
+
+.crmExt-blockExtensionRow-status-installed-missing * {
+  color: red !important;
+}

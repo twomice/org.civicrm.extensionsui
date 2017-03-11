@@ -25,7 +25,7 @@
 </a>
 
 <a
-  ng-if="(extension.status == 'installed')"
+  ng-if="(extension.status == 'installed' || extension.status == 'installed-missing')"
   class="action-item crm-hover-button"
   href=""
   crm-confirm="{message: ts('Disable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.disable();"
