@@ -23,9 +23,22 @@ td#crmExt-overlay-actions {
 .crmExt-detail-link {
   color: #2786c2;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.crmExt-blockExtensionRow-status-installed-missing *,
-.crmExt-blockExtensionRow-status-disabled-missing * {
+tr.crmExt-blockExtensionRow-status-installed-missing *,
+tr.crmExt-blockExtensionRow-status-disabled-missing * {
   color: red !important;
+}
+
+tr.crmExt-blockExtensionRow-status-installed {
+  background-color: #DDFFDD !important;
+}
+
+tr.crmExt-blockExtensionRow-status-disabled * {
+  color: #999999;
+}
+tr.crmExt-blockExtensionRow-status-disabled .crmExt-detail-link,
+tr.crmExt-blockExtensionRow-status-disabled a {
+  color: #74a2be !important;
 }
