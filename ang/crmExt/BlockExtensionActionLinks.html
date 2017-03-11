@@ -17,7 +17,7 @@
 </a>
 
 <a 
-  ng-if="(extension.status == 'disabled')"
+  ng-if="(extension.status == 'disabled' || extension.status == 'disabled-missing')"
   class="action-item crm-hover-button" href=""
   crm-confirm="{message: ts('Completely uninstall <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.uninstall();"
 >

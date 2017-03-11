@@ -28,7 +28,7 @@ td#crmExt-overlay-actions {
 
 tr.crmExt-blockExtensionRow-status-installed-missing *,
 tr.crmExt-blockExtensionRow-status-disabled-missing * {
-  color: red !important;
+  color: red;
 }
 
 tr.crmExt-blockExtensionRow-status-installed {
