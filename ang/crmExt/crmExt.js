@@ -155,7 +155,7 @@
         $scope.extensions = extensions;
       });
     };
-    
+
     $scope.refresh = function refresh() {
       return crmStatus(
         // Status messages. For defaults, just use "{}"
@@ -174,6 +174,10 @@
       extension.hasAvailableUpgrade = function hasAvailableUpgrade() {
         return $scope.hasAvailableUpgrade(extension.key)
       }
+
+      // Ensure extension.compatibility.ver is an array.
+      extension.compatibility.ver = (typeof extension.compatibility.ver == 'string' ? [extension.compatibility.ver] : extension.compatibility.ver)
+
       var options = CRM.utils.adjustDialogDefaults({
         autoOpen: false,
         title: extension.name
