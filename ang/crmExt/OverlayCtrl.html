@@ -47,7 +47,7 @@
         <td class="label">{{ts('Local path')}}</td>
         <td>
           <div class="crm-inline-error crm-error" ng-if="(model.status == 'installed-missing')">
-            {{ts('The extension file cannot be loaded from the following path. Please restore the file or disable the extension.')}}
+            {{ts('The extension file cannot be loaded from its path. Please restore the file or disable the extension.')}}
           </div>
           <span ng-if="(model.path.length)">{{model.path}}</span>
           <div class="crm-inline-error crm-error" ng-if="(model.status == 'disabled-missing')">
