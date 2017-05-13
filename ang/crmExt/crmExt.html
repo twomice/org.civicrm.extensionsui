@@ -1,4 +1,10 @@
 <h1 crm-page-title>{{ts('CiviCRM Extensions')}}</h1>
+<p class="help">
+  <!-- Note: This is not translated because Angular's ts() function does not support HTML in strings. -->
+  Thank you trying out this pre-release of CiviCRM's next-generation extensions manager. As this project is in its early stages,
+  you may find that it does not yet contain all the features of its predecessor. The <a href="{{legacyExtensionsURL}}">legacy
+  interface</a> is still available, should you need it.
+</p>
 <div ng-include="'~/crmExt/BlockPageActionLinks.html'"></div>
 <div class="crm-container">
   <div crm-ui-tab-set>

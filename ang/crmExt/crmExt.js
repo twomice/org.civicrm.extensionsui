@@ -24,7 +24,8 @@
     var hs = $scope.hs = crmUiHelp({file: 'CRM/crmExt/crmExt'}); // See: templates/CRM/crmExt/crmExt.hlp
 
     $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework})
-
+    $scope.legacyExtensionsURL = CRM.url('civicrm/admin/extensions', {reset: 1});
+    
     /**
      * Add action-link methods to the given extension object. These methods
      * will be called by click events in the UI, for example, "Enable" or "Uninstall".
