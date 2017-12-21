@@ -176,8 +176,12 @@
         return $scope.hasAvailableUpgrade(extension.key)
       }
 
-      // Ensure extension.compatibility.ver is an array (workaround can be removed if/when CRM-21561 is resolved).
-      extension.compatibility.ver = (typeof extension.compatibility.ver == 'string' ? [extension.compatibility.ver] : extension.compatibility.ver)
+      // Skip this if the extension is missing, as the full metadata aren't available
+      // and we end up accessing nonexistent properties, resulting in an error.
+      if (extension.status !== 'installed-missing') {
+        // Ensure extension.compatibility.ver is an array (workaround can be removed if/when CRM-21561 is resolved).
+        extension.compatibility.ver = (typeof extension.compatibility.ver == 'string' ? [extension.compatibility.ver] : extension.compatibility.ver)
+      }
 
       var options = CRM.utils.adjustDialogDefaults({
         autoOpen: false,
