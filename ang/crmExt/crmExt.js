@@ -23,9 +23,9 @@
     var ts = $scope.ts = CRM.ts('crmExt');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/crmExt/crmExt'}); // See: templates/CRM/crmExt/crmExt.hlp
 
-    $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework})
+    $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework});
     $scope.legacyExtensionsURL = CRM.url('civicrm/admin/extensions', {reset: 1});
-    
+
     /**
      * Add action-link methods to the given extension object. These methods
      * will be called by click events in the UI, for example, "Enable" or "Uninstall".
@@ -45,7 +45,7 @@
         .then(function(result) {
           loadAll();
         });
-      }
+      };
       obj.enable = function enable() {
         return crmStatus(
           // Status messages. For defaults, just use "{}"
@@ -57,7 +57,7 @@
         .then(function(result) {
           loadAll();
         });
-      }
+      };
       obj.install = function install() {
         var promise;
         if (_.isUndefined(this.path) || _.isEmpty(this.path)) {
@@ -69,7 +69,7 @@
           .then(function() {
             crmApi('Extension', 'install', {
               "keys": this.key
-            })
+            });
           });
         }
         else {
@@ -86,8 +86,8 @@
         )
         .then(function(result) {
           loadAll();
-        })
-      }
+        });
+      };
       obj.uninstall = function uninstall() {
         return crmStatus(
           // Status messages. For defaults, just use "{}"
@@ -99,7 +99,7 @@
         .then(function(result) {
           loadAll();
         });
-      }
+      };
       obj.upgrade = function upgrade() {
         return crmStatus(
           // Status messages. For defaults, just use "{}"
@@ -108,50 +108,50 @@
             "key": this.key
           })
           .then(function(){
-            crmApi('Extension', 'upgrade', {})
+            crmApi('Extension', 'upgrade', {});
           })
         )
         .then(function(result) {
           loadAll();
         });
-      }
-    }
+      };
+    };
 
     /**
      * Reload all data from the server.
      */
     var loadAll = function loadAll() {
-      var apiLocal = crmApi('Extension', 'get', {"options": {"limit":0}})
-      var apiRemote = crmApi('Extension', 'getremote', {"options": {"limit":0}})
+      var apiLocal = crmApi('Extension', 'get', {"options": {"limit":0}});
+      var apiRemote = crmApi('Extension', 'getremote', {"options": {"limit":0}});
       $q.all([apiLocal, apiRemote])
       .then(function(values){
-        localExtensions = values[0]
-        remoteExtensions = values[1]
+        localExtensions = values[0];
+        remoteExtensions = values[1];
         // Separate localExtensions into "installed" and "addnew" collections.
         var extensions = _.groupBy(localExtensions.values, function(obj) {
           return (obj.status == 'uninstalled' ? 'addnew' : 'installed');
         });
         // Remove all "installed" extensions from "addnew" collection.
-        installedKeys = _.map(extensions.installed, function(obj){return obj.key});
+        installedKeys = _.map(extensions.installed, function(obj){return obj.key;});
         extensions.addnew = _.reject(extensions.addnew, function(obj){
-          return (installedKeys.indexOf(obj.key) >= 0)
-        })
+          return (installedKeys.indexOf(obj.key) >= 0);
+        });
         // Create a collection of remote extensions which are not also local.
-        localKeys = _.map(localExtensions.values, function(obj){return obj.key});
+        localKeys = _.map(localExtensions.values, function(obj){return obj.key;});
         remoteOnly = _.reject(remoteExtensions.values, function(obj){
           return (localKeys.indexOf(obj.key) >= 0);
-        })
+        });
         // Add all remoteOnly extensions to the "addnew" collection.
         extensions.addnew = _.union(extensions.addnew, remoteOnly);
         // Add crmExt_parentname attribute to each extension
         extensions.installed = _.each(extensions.installed, function(obj){
-          obj.crmExt_parentname = 'installed'
-          addActionMethods(obj)
-        })
+          obj.crmExt_parentname = 'installed';
+          addActionMethods(obj);
+        });
         extensions.addnew = _.each(extensions.addnew, function(obj){
-          obj.crmExt_parentname = 'addnew'
-          addActionMethods(obj)
-        })
+          obj.crmExt_parentname = 'addnew';
+          addActionMethods(obj);
+        });
 
         $scope.extensions = extensions;
       });
@@ -166,31 +166,32 @@
       .then(function(result) {
         loadAll();
       });
-    }
+    };
+
     $scope.showOverlay = function showOverlay(key, parentname) {
-      var extension = _.findWhere($scope.extensions[parentname], {'key': key})
+      var extension = _.findWhere($scope.extensions[parentname], {'key': key});
       extension.availableUpgradeVersion = function availableUpgradeVersion() {
-        return $scope.availableUpgradeVersion(extension.key)
-      }
+        return $scope.availableUpgradeVersion(extension.key);
+      };
       extension.hasAvailableUpgrade = function hasAvailableUpgrade() {
-        return $scope.hasAvailableUpgrade(extension.key)
-      }
+        return $scope.hasAvailableUpgrade(extension.key);
+      };
 
       // Skip this if the extension is missing, as the full metadata aren't available
       // and we end up accessing nonexistent properties, resulting in an error.
       if (extension.status !== 'installed-missing') {
         // Ensure extension.compatibility.ver is an array (workaround can be removed if/when CRM-21561 is resolved).
-        extension.compatibility.ver = (typeof extension.compatibility.ver == 'string' ? [extension.compatibility.ver] : extension.compatibility.ver)
+        extension.compatibility.ver = (typeof extension.compatibility.ver == 'string' ? [extension.compatibility.ver] : extension.compatibility.ver);
       }
 
       var options = CRM.utils.adjustDialogDefaults({
         autoOpen: false,
         title: extension.name
       });
-      dialogService.open('crmExt-overlay', '~/crmExt/OverlayCtrl.html', extension, options)
+      dialogService.open('crmExt-overlay', '~/crmExt/OverlayCtrl.html', extension, options);
 
       var setOverlayButtons = function setOverlayButtons() {
-        var buttons = []
+        var buttons = [];
         if (_.isUndefined(extension.status) || _.isEmpty(extension.status) || extension.status == 'uninstalled') {
           buttons.push({
             text: ts('Install'),
@@ -201,7 +202,7 @@
                 dialogService.close('crmExt-overlay');
               });
             }
-          })
+          });
         }
         if (extension.status == 'disabled') {
           buttons.push({
@@ -213,7 +214,7 @@
                 dialogService.close('crmExt-overlay');
               });
             }
-          })
+          });
         }
         if (extension.status == 'disabled') {
           buttons.push({
@@ -225,7 +226,7 @@
                 dialogService.close('crmExt-overlay');
               });
             }
-          })
+          });
         }
         if (extension.status == 'installed') {
           buttons.push({
@@ -238,37 +239,37 @@
               });
             }
           }
-        )}
+        );}
         buttons.push({
           text: ts('Cancel'),
           icons: {primary: 'fa-times'},
           click: function() {
             dialogService.cancel('crmExt-overlay');
           }
-        })
+        });
         dialogService.setButtons('crmExt-overlay', buttons);
-      }
-      $timeout(setOverlayButtons)
+      };
+      $timeout(setOverlayButtons);
+    };
 
-    }
     $scope.hasAvailableUpgrade = function hasAvailableUpgrade(key) {
-      var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key})
+      var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key});
       if (_.isUndefined(remoteExtension)) {
         return false;
       }
-      var localExtension = _.findWhere(localExtensions.values, {'key': key})
+      var localExtension = _.findWhere(localExtensions.values, {'key': key});
       if (_.isUndefined(localExtension)) {
         return false;
       }
-      return (crmExt_version_compare(localExtension.version, remoteExtension.version, '<'))
-    }
+      return (crmExt_version_compare(localExtension.version, remoteExtension.version, '<'));
+    };
     $scope.availableUpgradeVersion = function availableUpgradeVersion(key) {
-      var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key})
+      var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key});
       if (_.isUndefined(remoteExtension)) {
         return '';
       }
-      return remoteExtension.version
-    }
+      return remoteExtension.version;
+    };
 
     $scope.save = function save() {
       return crmStatus(
@@ -310,9 +311,9 @@
       //        returns 4: 1
 
       // Important: compare must be initialized at 0.
-      var i
-      var x
-      var compare = 0
+      var i;
+      var x;
+      var compare = 0;
 
       // vm maps textual PHP versions to negatives so they're less than 0.
       // PHP currently defines these as CASE-SENSITIVE. It is important to
@@ -332,7 +333,7 @@
         '#': -2,
         'p': 1,
         'pl': 1
-      }
+      };
 
       // This function will be called to prepare each version argument.
       // It replaces every _, -, and + with a dot.
@@ -344,37 +345,38 @@
       // It's also important to not strip spaces because of this.
       //   version_compare('', ' ') === 1
       var _prepVersion = function (v) {
-        v = ('' + v).replace(/[_\-+]/g, '.')
-        v = v.replace(/([^.\d]+)/g, '.$1.').replace(/\.{2,}/g, '.')
-        return (!v.length ? [-8] : v.split('.'))
-      }
+        v = ('' + v).replace(/[_\-+]/g, '.');
+        v = v.replace(/([^.\d]+)/g, '.$1.').replace(/\.{2,}/g, '.');
+        return (!v.length ? [-8] : v.split('.'));
+      };
+
       // This converts a version component to a number.
       // Empty component becomes 0.
       // Non-numerical component becomes a negative number.
       // Numerical component becomes itself as an integer.
       var _numVersion = function (v) {
-        return !v ? 0 : (isNaN(v) ? vm[v] || -7 : parseInt(v, 10))
-      }
+        return !v ? 0 : (isNaN(v) ? vm[v] || -7 : parseInt(v, 10));
+      };
 
-      v1 = _prepVersion(v1)
-      v2 = _prepVersion(v2)
-      x = Math.max(v1.length, v2.length)
+      v1 = _prepVersion(v1);
+      v2 = _prepVersion(v2);
+      x = Math.max(v1.length, v2.length);
       for (i = 0; i < x; i++) {
         if (v1[i] === v2[i]) {
-          continue
+          continue;
         }
-        v1[i] = _numVersion(v1[i])
-        v2[i] = _numVersion(v2[i])
+        v1[i] = _numVersion(v1[i]);
+        v2[i] = _numVersion(v2[i]);
         if (v1[i] < v2[i]) {
-          compare = -1
-          break
+          compare = -1;
+          break;
         } else if (v1[i] > v2[i]) {
-          compare = 1
-          break
+          compare = 1;
+          break;
         }
       }
       if (!operator) {
-        return compare
+        return compare;
       }
 
       // Important: operator is CASE-SENSITIVE.
@@ -383,29 +385,29 @@
       switch (operator) {
         case '>':
         case 'gt':
-          return (compare > 0)
+          return (compare > 0);
         case '>=':
         case 'ge':
-          return (compare >= 0)
+          return (compare >= 0);
         case '<=':
         case 'le':
-          return (compare <= 0)
+          return (compare <= 0);
         case '===':
         case '=':
         case 'eq':
-          return (compare === 0)
+          return (compare === 0);
         case '<>':
         case '!==':
         case 'ne':
-          return (compare !== 0)
+          return (compare !== 0);
         case '':
         case '<':
         case 'lt':
-          return (compare < 0)
+          return (compare < 0);
         default:
-          return null
+          return null;
       }
-    }
+    };
 
     // Initially load all data from server.
     loadAll();
