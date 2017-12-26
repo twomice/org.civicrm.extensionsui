@@ -135,6 +135,17 @@ function extensionsui_civicrm_navigationMenu(&$menu) {
 } // */
 
 /**
+ * Implements hook_civicrm_postInstall().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall/
+ *
+ */
+function extensionsui_civicrm_postInstall() {
+  // Visit the new UI post-install rather than redirect back to the legacy one
+  CRM_Utils_System::redirect('/civicrm/a/#/extensions');
+}
+
+/**
  * Implements hook_civicrm_navigationMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
