@@ -1,13 +1,22 @@
 (function(angular, $, _) {
 
-  angular.module('crmExt').config(function($routeProvider) {
+  angular.module('crmExt').config(function ($routeProvider) {
       $routeProvider.when('/extensions', {
         controller: 'ExtensionsuicrmExt',
         templateUrl: '~/crmExt/crmExt.html',
 
         // If you need to look up data when opening the page, list it out
         // under "resolve".
-        resolve: {}
+      resolve: {
+        extensions: function (crmApi, Extension) {
+          // TODO: this API doesn't exist and may need a better name
+          return crmApi('Extension', 'getAgnostic').then(function (data) {
+            return _.map(data.values, function (ext) {
+              return new Extension(ext);
+            });
+          });
+        }
+      }
       });
     }
   );
@@ -17,7 +26,8 @@
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
   //   dialogService -- provided by civicrm.
   //   $q, $timeout -- provided by angular.
-  angular.module('crmExt').controller('ExtensionsuicrmExt', function($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout) {
+  angular.module('crmExt').controller('ExtensionsuicrmExt', function ($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout, extensions) {
+    $scope.extensions = extensions;
 
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('crmExt');
@@ -35,56 +45,17 @@
      */
     var addActionMethods = function addActionMethods(obj) {
       obj.disable = function disable() {
-          return crmStatus(
-          // Status messages. For defaults, just use "{}"
-          {start: ts('Disabling...'), success: ts('Disabled')},
-          crmApi('Extension', 'disable', {
-            "keys": this.key
-          })
-        )
-        .then(function(result) {
+        return obj.lifecycle('disable').then(function (result) {
           loadAll();
         });
       };
       obj.enable = function enable() {
-        return crmStatus(
-          // Status messages. For defaults, just use "{}"
-          {start: ts('Enabling...'), success: ts('Enabled')},
-          crmApi('Extension', 'enable', {
-            "keys": this.key
-          })
-        )
-        .then(function(result) {
+        return obj.lifecycle('enable').then(function (result) {
           loadAll();
         });
       };
       obj.install = function install() {
-        var promise;
-        if (_.isUndefined(this.path) || _.isEmpty(this.path)) {
-          // Extension has no path, meaning it doesn't exist on disk.
-          // First download it, then install it.
-          promise = crmApi('Extension', 'download', {
-            "key": this.key
-          })
-          .then(function() {
-            crmApi('Extension', 'install', {
-              "keys": this.key
-            });
-          });
-        }
-        else {
-          // Extension has a path, meaning it does exist on disk.
-          // Just install it.
-          promise = crmApi('Extension', 'install', {
-            "keys": this.key
-          });
-        }
-        return crmStatus(
-          // Status messages. For defaults, just use "{}"
-          {start: ts('Installing...'), success: ts('Installed')},
-          promise
-        )
-        .then(function(result) {
+        return obj.lifecycle('install').then(function (result) {
           loadAll();
         });
       };
