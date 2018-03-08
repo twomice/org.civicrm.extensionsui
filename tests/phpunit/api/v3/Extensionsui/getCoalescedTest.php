@@ -38,17 +38,17 @@ class api_v3_Extensionsui_getCoalescedTest extends \PHPUnit_Framework_TestCase i
   }
 
   /**
-   * Example: Test that a version is returned.
+   *
    */
-  public function testWellFormedVersion() {
-    $this->assertRegExp('/^([0-9\.]|alpha|beta)*$/', \CRM_Utils_System::version());
-  }
-
-  /**
-   * Example: Test that we're using a fake CMS.
-   */
-  public function testWellFormedUF() {
-    $this->assertEquals('UnitTests', CIVICRM_UF);
+  public function testExtensionsuiIsInstalled() {
+    $result = civicrm_api3('Extension', 'getCoalesced', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $keyedValues = array_column($result['values'], NULL, 'key');
+    $this->assertArrayHasKey('org.civicrm.extensionsui', $keyedValues);
+    $this->assertEquals('installed', $keyedValues['org.civicrm.extensionsui']['status']);
   }
 
 }
