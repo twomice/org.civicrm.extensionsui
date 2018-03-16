@@ -22,5 +22,18 @@ function _civicrm_api3_extension_Getcoalesced_spec(&$spec) {
  * @throws API_Exception
  */
 function civicrm_api3_extension_Getcoalesced($params) {
-  return civicrm_api3('Extension', 'get', array());
+  $localExtensions = civicrm_api3('Extension', 'get', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    )
+  );
+  $remoteExtensions = civicrm_api3('Extension', 'getRemote', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    )
+  );
+  $allExtensions = CRM_Extensionsui_Utils::coalesceExtensions($localExtensions['values'], $remoteExtensions['values']);
+  return civicrm_api3_create_success($allExtensions, $params, 'Extension', 'getcoalesced');
 }

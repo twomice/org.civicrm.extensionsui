@@ -38,7 +38,7 @@ class api_v3_Extensionsui_getCoalescedTest extends \PHPUnit_Framework_TestCase i
   }
 
   /**
-   *
+   * Test that an extension we know is installed is reported as installed.
    */
   public function testExtensionsuiIsInstalled() {
     $result = civicrm_api3('Extension', 'getCoalesced', array(
@@ -49,6 +49,23 @@ class api_v3_Extensionsui_getCoalescedTest extends \PHPUnit_Framework_TestCase i
     $keyedValues = array_column($result['values'], NULL, 'key');
     $this->assertArrayHasKey('org.civicrm.extensionsui', $keyedValues);
     $this->assertEquals('installed', $keyedValues['org.civicrm.extensionsui']['status']);
+  }
+
+  /**
+   * Test that an extension known to exist remotely is reported as existing.
+   *
+   * Assumes cividiscount is published for automated distribution, and that we
+   * don't have that extension's files locally.
+   */
+  public function testRemoteExtensionIsReturned() {
+    $result = civicrm_api3('Extension', 'getCoalesced', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $keyedValues = array_column($result['values'], NULL, 'key');
+    $this->assertArrayHasKey('org.civicrm.module.cividiscount', $keyedValues);
+    $this->assertEquals('remote', $keyedValues['org.civicrm.module.cividiscount']['status']);
   }
 
 }
