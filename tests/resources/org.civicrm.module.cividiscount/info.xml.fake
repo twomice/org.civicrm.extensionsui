@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<extension key="org.civicrm.module.cividiscount" type="module">
+  <file>cividiscount</file>
+  <name>CiviFauxDiscount</name>
+  <description>Not really CiviDiscount!</description>
+  <license>to ill</license>
+  <maintainer>
+    <author>Test McTest</author>
+    <email>test@example.org</email>
+  </maintainer>
+  <urls>
+    <url desc="Test">https://example.org</url>
+  </urls>
+  <releaseDate>2015-10-21</releaseDate>
+  <version>0.0.1</version>
+  <compatibility>
+    <ver>4.7</ver>
+  </compatibility>
+  <comments>Peanut gallery.</comments>
+  <civix>
+    <namespace>CRM/Dummy</namespace>
+  </civix>
+</extension>
