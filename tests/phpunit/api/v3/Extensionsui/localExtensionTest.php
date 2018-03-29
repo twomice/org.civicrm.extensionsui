@@ -33,18 +33,20 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
     parent::setUp();
 
     global $civicrm_root;
-    $this->extDestination = $civicrm_root . '/tools/extensions/org.civicrm.module.cividiscount';
+    $this->extDestination = $civicrm_root . 'tools/extensions/org.civicrm.module.cividiscount';
     mkdir($this->extDestination);
 
     $fakeInfoXml = E::path('tests/resources/org.civicrm.module.cividiscount/info.xml.fake');
     copy($fakeInfoXml, $this->extDestination . '/info.xml');
+
+    civicrm_api3('Extension', 'refresh', array());
   }
 
   public function tearDown() {
     parent::tearDown();
 
     unlink($this->extDestination . '/info.xml');
-    var_dump(rmdir($this->extDestination));
+    rmdir($this->extDestination);
   }
 
   /**
@@ -65,7 +67,7 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('to ill', $civiDiscount['license']);
     $this->assertEquals('Test McTest', $civiDiscount['maintainer']['author']);
     $this->assertEquals('test@example.org', $civiDiscount['maintainer']['email']);
-    $this->assertEquals('Peanut gallery.', $civiDiscount['comment']);
+    $this->assertEquals('Peanut gallery.', $civiDiscount['comments']);
     $this->assertEquals($this->extDestination, $civiDiscount['path']);
     $this->assertEquals('', $civiDiscount['statusLabel']);
   }
