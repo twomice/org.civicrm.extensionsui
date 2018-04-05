@@ -13,7 +13,7 @@ class CRM_Extensionsui_Utils {
     foreach ($result as &$ext) {
       $ext['status'] = 'remote';
       $ext['remote'] = array(
-        'version' => $ext['version'],
+        'version' => CRM_Utils_Array::value('version', $ext),
       );
       // Ensure consistent interface by initializing relevant array keys.
       $ext['local'] = array(
@@ -24,9 +24,13 @@ class CRM_Extensionsui_Utils {
     }
 
     foreach ($local as $key => $ext) {
-      $ext['local']['version'] = $ext['version'];
-      $ext['local']['requires'] = $ext['requires'];
-      $ext['local']['releaseDate'] = $ext['releaseDate'];
+      $ext['local']['version'] = CRM_Utils_Array::value('version', $ext);
+      $ext['local']['requires'] = CRM_Utils_Array::value('requires', $ext);
+      $ext['local']['releaseDate'] = CRM_Utils_Array::value('releaseDate', $ext);
+
+      // TODO: Well, we don't want this. This is clobbering all the work in the
+      // previous foreach loop. We need to do a smarter merge. This is causing
+      // api_v3_Extensionsui_localExtensionTest->testVersion() to fail.
       $result[$key] = $ext;
     }
     return $result;
