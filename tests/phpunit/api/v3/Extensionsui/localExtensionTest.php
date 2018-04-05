@@ -32,6 +32,12 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
   public function setUp() {
     parent::setUp();
 
+    $result = civicrm_api3('Extension', 'get', array(
+      'key' => 'org.civicrm.module.cividiscount',
+      'sequential' => 1,
+    ));
+    $this->assertEquals(0, $result['count'], "These tests assume CiviDiscount files do not exist locally, but they do.");
+
     global $civicrm_root;
     $this->extDestination = $civicrm_root . 'tools/extensions/org.civicrm.module.cividiscount';
     mkdir($this->extDestination);
