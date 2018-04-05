@@ -12,9 +12,21 @@ class CRM_Extensionsui_Utils {
 
     foreach ($result as &$ext) {
       $ext['status'] = 'remote';
+      $ext['remote'] = array(
+        'version' => $ext['version'],
+      );
+      // Ensure consistent interface by initializing relevant array keys.
+      $ext['local'] = array(
+        'version' => NULL,
+        'requires' => NULL,
+        'releaseDate' => NULL,
+      );
     }
 
-    foreach ($local as $key => &$ext) {
+    foreach ($local as $key => $ext) {
+      $ext['local']['version'] = $ext['version'];
+      $ext['local']['requires'] = $ext['requires'];
+      $ext['local']['releaseDate'] = $ext['releaseDate'];
       $result[$key] = $ext;
     }
     return $result;

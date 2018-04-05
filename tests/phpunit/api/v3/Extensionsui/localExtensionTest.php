@@ -78,4 +78,15 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('', $civiDiscount['statusLabel']);
   }
 
+  public function testVersion() {
+    $result = civicrm_api3('Extension', 'getCoalesced', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $civiDiscount = array_column($result['values'], NULL, 'key')['org.civicrm.module.cividiscount'];
+
+    $this->assertEquals('0.0.1', $civiDiscount['local']['version']);
+    $this->assertNotEquals('0.0.1', $civiDiscount['remote']['version']);
+  } 
 }
