@@ -42,6 +42,12 @@ Template](https://github.com/civicrm/org.civicrm.testapalooza/tree/phpunit).
 They run "headlessly" (possibly an abuse of the term), which is to say that they
 run against a test database spun up expressly for the purpose of testing.
 
+Note: These tests operate on two assumptions about the site running them:
+
+1. that it can access the Internet (to get a list of installable extensions);
+2. that it does not have a local copy of CiviDiscount. The tests introduce a
+   fake local copy to ensure appropriate behavior around local vs. remote data.
+
 To run the unit tests, you must have [cv](https://github.com/civicrm/cv) and
 phpunit4 installed. (If you are using
 [civicrm-buildkit](https://github.com/civicrm/civicrm-buildkit), both will have
