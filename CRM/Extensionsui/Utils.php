@@ -8,32 +8,65 @@ class CRM_Extensionsui_Utils {
     // Key arrays by extensions name.
     $local = array_column($local, NULL, 'key');
 
-    $result = array_column($remote, NULL, 'key');
+    // start with all of the remote extensions in our result
+    $remote = array_column($remote, NULL, 'key');
+    $coalescedExtensions = array();
 
-    foreach ($result as &$ext) {
-      $ext['status'] = 'remote';
-      $ext['remote'] = array(
-        'version' => CRM_Utils_Array::value('version', $ext),
-      );
+    foreach ($remote as $key => $ext) {
+      $coalescedExtensions[$key] = self::getCoalescedExtProperties($ext);
+
       // Ensure consistent interface by initializing relevant array keys.
-      $ext['local'] = array(
-        'version' => NULL,
-        'requires' => NULL,
+      $coalescedExtensions[$key]['local'] = array(
         'releaseDate' => NULL,
+        'requires' => NULL,
+        'version' => NULL,
+      );
+
+      $coalescedExtensions[$key]['remote'] = array(
+        'releaseDate' => CRM_Utils_Array::value('releaseDate', $ext),
+        'requires' => CRM_Utils_Array::value('requires', $ext),
+        'version' => CRM_Utils_Array::value('version', $ext),
       );
     }
 
     foreach ($local as $key => $ext) {
-      $ext['local']['version'] = CRM_Utils_Array::value('version', $ext);
-      $ext['local']['requires'] = CRM_Utils_Array::value('requires', $ext);
-      $ext['local']['releaseDate'] = CRM_Utils_Array::value('releaseDate', $ext);
+      $coalescedExtensions[$key] = self::getCoalescedExtProperties($ext);
+      $coalescedExtensions[$key]['local'] = array(
+        'releaseDate' => CRM_Utils_Array::value('releaseDate', $ext),
+        'requires' => CRM_Utils_Array::value('requires', $ext),
+        'version' => CRM_Utils_Array::value('version', $ext),
+      );
 
-      // TODO: Well, we don't want this. This is clobbering all the work in the
-      // previous foreach loop. We need to do a smarter merge. This is causing
-      // api_v3_Extensionsui_localExtensionTest->testVersion() to fail.
-      $result[$key] = $ext;
+      // Ensure consistent interface by initializing relevant array keys.
+      if (!isset($coalescedExtensions[$key]['remote'])) {
+        $coalescedExtensions[$key]['remote'] = array(
+          'releaseDate' => NULL,
+          'requires' => NULL,
+          'version' => NULL,
+        );
+      }
     }
-    return $result;
+    return $coalescedExtensions;
+  }
+
+  /**
+   * @param array $ext
+   *   Result from api.Extension.get or api.Extension.getRemote
+   * @return array
+   */
+  private static function getCoalescedExtProperties(array $ext) {
+    return array(
+      'comments' => CRM_Utils_Array::value('comments', $ext),
+      'description' => CRM_Utils_Array::value('description', $ext),
+      'key' => CRM_Utils_Array::value('key', $ext),
+      'license' => CRM_Utils_Array::value('license', $ext),
+      'maintainer' => CRM_Utils_Array::value('maintainer', $ext),
+      'name' => CRM_Utils_Array::value('name', $ext),
+      'path' => CRM_Utils_Array::value('path', $ext),
+      'status' => CRM_Utils_Array::value('status', $ext, 'remote'),
+      'statusLabel' => CRM_Utils_Array::value('statusLabel', $ext),
+      'urls' => CRM_Utils_Array::value('urls', $ext),
+    );
   }
 
 }
