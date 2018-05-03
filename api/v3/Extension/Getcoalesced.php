@@ -34,6 +34,6 @@ function civicrm_api3_extension_Getcoalesced($params) {
       ),
     )
   );
-  $allExtensions = CRM_Extensionsui_Utils::coalesceExtensions($localExtensions['values'], $remoteExtensions['values']);
+  $allExtensions = CRM_Extensionsui_Coalescer::coalesce($localExtensions['values'], $remoteExtensions['values']);
   return civicrm_api3_create_success($allExtensions, $params, 'Extension', 'getcoalesced');
 }
