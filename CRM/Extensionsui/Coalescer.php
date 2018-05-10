@@ -91,14 +91,14 @@ class CRM_Extensionsui_Coalescer {
     if (array_key_exists($extKey, $this->local)) {
       return array(
         'releaseDate' => CRM_Utils_Array::value('releaseDate', $this->local[$extKey]),
-        'requires' => CRM_Utils_Array::value('requires', $this->local[$extKey]),
+        'requires' => CRM_Utils_Array::value('requires', $this->local[$extKey], array()),
         'version' => CRM_Utils_Array::value('version', $this->local[$extKey]),
       );
     }
     else {
       return array(
         'releaseDate' => NULL,
-        'requires' => NULL,
+        'requires' => array(),
         'version' => NULL,
       );
     }
@@ -114,14 +114,14 @@ class CRM_Extensionsui_Coalescer {
     if (array_key_exists($extKey, $this->remote)) {
       return array(
         'releaseDate' => CRM_Utils_Array::value('releaseDate', $this->remote[$extKey]),
-        'requires' => CRM_Utils_Array::value('requires', $this->remote[$extKey]),
+        'requires' => CRM_Utils_Array::value('requires', $this->remote[$extKey], array()),
         'version' => CRM_Utils_Array::value('version', $this->remote[$extKey]),
       );
     }
     else {
       return array(
         'releaseDate' => NULL,
-        'requires' => NULL,
+        'requires' => array(),
         'version' => NULL,
       );
     }

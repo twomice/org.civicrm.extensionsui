@@ -19,7 +19,7 @@ use Civi\Test\TransactionalInterface;
  */
 class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase implements HeadlessInterface, TransactionalInterface {
 
-  private $extDestination;
+  private $extDestinations;
 
   public function setUpHeadless() {
     // Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().
@@ -39,11 +39,16 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals(0, $result['count'], "These tests assume CiviDiscount files do not exist locally, but they do.");
 
     global $civicrm_root;
-    $this->extDestination = $civicrm_root . 'tools/extensions/org.civicrm.module.cividiscount';
-    mkdir($this->extDestination);
+    $this->extDestinations = array(
+      'org.civicrm.module.cividiscount' => $civicrm_root . 'tools/extensions/org.civicrm.module.cividiscount',
+      'com.example.thiswillneverexist' => $civicrm_root . 'tools/extensions/com.example.thiswillneverexist',
+    );
+    foreach ($this->extDestinations as $key => $extDestination) {
+      mkdir($extDestination);
 
-    $fakeInfoXml = E::path('tests/resources/org.civicrm.module.cividiscount/info.xml.fake');
-    copy($fakeInfoXml, $this->extDestination . '/info.xml');
+      $fakeInfoXml = E::path("tests/resources/{$key}/info.xml.fake");
+      copy($fakeInfoXml, $extDestination . '/info.xml');
+    }
 
     civicrm_api3('Extension', 'refresh', array());
   }
@@ -51,8 +56,10 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
   public function tearDown() {
     parent::tearDown();
 
-    unlink($this->extDestination . '/info.xml');
-    rmdir($this->extDestination);
+    foreach ($this->extDestinations as $extDestination) {
+      unlink($extDestination . '/info.xml');
+      rmdir($extDestination);
+    }
   }
 
   /**
@@ -74,7 +81,7 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('Test McTest', $civiDiscount['maintainer']['author']);
     $this->assertEquals('test@example.org', $civiDiscount['maintainer']['email']);
     $this->assertEquals('Peanut gallery.', $civiDiscount['comments']);
-    $this->assertEquals($this->extDestination, $civiDiscount['path']);
+    $this->assertEquals($this->extDestinations['org.civicrm.module.cividiscount'], $civiDiscount['path']);
     $this->assertEquals('', $civiDiscount['statusLabel']);
   }
 
@@ -117,6 +124,27 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals($remoteDiscount['version'], $keyedValues['org.civicrm.module.cividiscount']['remote']['version']);
     $this->assertEquals($remoteDiscount['requires'], $keyedValues['org.civicrm.module.cividiscount']['remote']['requires']);
     $this->assertEquals($remoteDiscount['releaseDate'], $keyedValues['org.civicrm.module.cividiscount']['remote']['releaseDate']);
+  }
+
+  /**
+   * Test that an extension we know is installed is reported as installed.
+   */
+  public function testLocalOnlyExtension() {
+    $result = civicrm_api3('Extension', 'getCoalesced', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $keyedValues = array_column($result['values'], NULL, 'key');
+    $this->assertArrayHasKey('com.example.thiswillneverexist', $keyedValues);
+
+    $this->assertEquals('0.0.2', $keyedValues['com.example.thiswillneverexist']['local']['version']);
+    $this->assertEquals(array(), $keyedValues['com.example.thiswillneverexist']['local']['requires']);
+    $this->assertEquals('2015-10-22', $keyedValues['com.example.thiswillneverexist']['local']['releaseDate']);
+
+    $this->assertNull($keyedValues['com.example.thiswillneverexist']['remote']['version']);
+    $this->assertEquals(array(), $keyedValues['com.example.thiswillneverexist']['remote']['requires']);
+    $this->assertNull($keyedValues['com.example.thiswillneverexist']['remote']['releaseDate']);
   }
 
 }
