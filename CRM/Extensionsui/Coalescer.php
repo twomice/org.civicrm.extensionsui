@@ -45,7 +45,7 @@ class CRM_Extensionsui_Coalescer {
     $remote = array_column($remote, NULL, 'key');
 
     $util = new self($local, $remote);
-    $extKeys = array_unique(array_keys($local) + array_keys($remote));
+    $extKeys = array_unique(array_keys($local + $remote));
     $coalescedExtensions = array();
     foreach ($extKeys as $extKey) {
       $coalescedExtensions[$extKey] = $util->getCoalescedProperties($extKey);
