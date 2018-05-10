@@ -4,30 +4,6 @@
    that the current code is now (or again?) clobbering the remote values when
    items go through the local loop. See next section)
 
-# Refactoring sketch
-I'm inclined to refactor to use a proper class rather than continue to
-masquerade these static PHP functions as a class.
-
-The class probably needs only one public function, which gets the same args as
-coalesceExtensions(). It caches the args in class properties `$this->localExtensions`
-and `$this->remoteExtensions` and builds a new (local in scope) array of unique
-extension keys, which it loops through, calling private methods:
-
-```php
-$this->coalescedExtensions[$key] = $this->getCoalescedProperties($key);
-$this->coalescedExtensions[$key]['local'] = $this->getLocalProperties($key);
-$this->coalescedExtensions[$key]['remote'] = $this->getRemoteProperties($key);
-```
-
-`getCoalescedProperties()` checks if the key exists in the `$this->localExtensions`
-and returns something like our current `getCoalescedExtProperties()` if so.
-Otherwise it does so based on the data in `$this->remoteExtensions`.
-
-`getLocalProperties()` builds the 'local' subarray based on the values in
-`$this->localExtensions`, else returns the array structure with NULL values to
-address the "consistent interfaces" concern. `getRemoteProperties()` does the
-same using `$this->remoteExtensions` as its data source.
-
 # Coalescing Specification
 
 Notes from a 2018-03-22 meeting between Allen and Frank. Stashed in this repo

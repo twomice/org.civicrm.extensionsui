@@ -88,5 +88,35 @@ class api_v3_Extensionsui_localExtensionTest extends \PHPUnit_Framework_TestCase
 
     $this->assertEquals('0.0.1', $civiDiscount['local']['version']);
     $this->assertNotEquals('0.0.1', $civiDiscount['remote']['version']);
-  } 
+  }
+
+  /**
+   * Test that information about the local copy of the extension is returned in
+   * a sub-array keyed 'local', and that the remote copy is represented in a sub-
+   * array keyed 'remote'.
+   */
+  public function testEnvironmentProperties() {
+    $result = civicrm_api3('Extension', 'getCoalesced', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $keyedValues = array_column($result['values'], NULL, 'key');
+    $this->assertArrayHasKey('org.civicrm.module.cividiscount', $keyedValues);
+    $this->assertEquals('0.0.1', $keyedValues['org.civicrm.module.cividiscount']['local']['version']);
+    $this->assertEquals(array('org.civicrm.fakereq'), $keyedValues['org.civicrm.module.cividiscount']['local']['requires']);
+    $this->assertEquals('2015-10-21', $keyedValues['org.civicrm.module.cividiscount']['local']['releaseDate']);
+
+    $remoteResult = civicrm_api3('Extension', 'getRemote', array(
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $keyedRemoteValues = array_column($remoteResult['values'], NULL, 'key');
+    $remoteDiscount = $keyedRemoteValues['org.civicrm.module.cividiscount'];
+    $this->assertEquals($remoteDiscount['version'], $keyedValues['org.civicrm.module.cividiscount']['remote']['version']);
+    $this->assertEquals($remoteDiscount['requires'], $keyedValues['org.civicrm.module.cividiscount']['remote']['requires']);
+    $this->assertEquals($remoteDiscount['releaseDate'], $keyedValues['org.civicrm.module.cividiscount']['remote']['releaseDate']);
+  }
+
 }

@@ -12,6 +12,9 @@
     <url desc="Test">https://example.org</url>
   </urls>
   <releaseDate>2015-10-21</releaseDate>
+  <requires>
+    <ext>org.civicrm.fakereq</ext>
+  </requires>
   <version>0.0.1</version>
   <compatibility>
     <ver>4.7</ver>
