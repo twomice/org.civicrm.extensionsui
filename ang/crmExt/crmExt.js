@@ -9,8 +9,7 @@
         // under "resolve".
       resolve: {
         extensions: function (crmApi, Extension) {
-          // TODO: this API doesn't exist and may need a better name
-          return crmApi('Extension', 'getAgnostic').then(function (data) {
+          return crmApi('Extension', 'getCoalesced').then(function (data) {
             return _.map(data.values, function (ext) {
               return new Extension(ext);
             });
@@ -86,46 +85,6 @@
           loadAll();
         });
       };
-    };
-
-    /**
-     * Reload all data from the server.
-     */
-    var loadAll = function loadAll() {
-      var apiLocal = crmApi('Extension', 'get', {"options": {"limit":0}});
-      var apiRemote = crmApi('Extension', 'getremote', {"options": {"limit":0}});
-      $q.all([apiLocal, apiRemote])
-      .then(function(values){
-        localExtensions = values[0];
-        remoteExtensions = values[1];
-        // Separate localExtensions into "installed" and "addnew" collections.
-        var extensions = _.groupBy(localExtensions.values, function(obj) {
-          return (obj.status == 'uninstalled' ? 'addnew' : 'installed');
-        });
-        // Remove all "installed" extensions from "addnew" collection.
-        installedKeys = _.map(extensions.installed, function(obj){return obj.key;});
-        extensions.addnew = _.reject(extensions.addnew, function(obj){
-          return (installedKeys.indexOf(obj.key) >= 0);
-        });
-        // Create a collection of remote extensions which are not also local.
-        localKeys = _.map(localExtensions.values, function(obj){return obj.key;});
-        remoteOnly = _.reject(remoteExtensions.values, function(obj){
-          return (localKeys.indexOf(obj.key) >= 0);
-        });
-        // Add all remoteOnly extensions to the "addnew" collection.
-        extensions.addnew = _.union(extensions.addnew, remoteOnly);
-        // Add crmExt_parentname attribute to each extension
-        extensions.installed = _.each(extensions.installed, function(obj){
-          obj.crmExt_parentname = 'installed';
-          addActionMethods(obj);
-        });
-        extensions.addnew = _.each(extensions.addnew, function(obj){
-          obj.crmExt_parentname = 'addnew';
-          addActionMethods(obj);
-        });
-
-        $scope.extensions = extensions;
-      });
     };
 
     $scope.refresh = function refresh() {
@@ -379,9 +338,6 @@
           return null;
       }
     };
-
-    // Initially load all data from server.
-    loadAll();
 
   });
 

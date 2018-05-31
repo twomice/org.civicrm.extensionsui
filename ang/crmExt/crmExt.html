@@ -22,8 +22,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr 
-            ng-repeat="(key, value) in extensions.installed | orderBy:installedOrder.get()"
+          <tr
+            ng-repeat="(key, value) in extensions | filter: {status: 'installed'} | orderBy:installedOrder.get()"
             ng-class="'crmExt-blockExtensionRow-status-' + value.status"
             ng-include="'~/crmExt/BlockExtensionRow.html'"
             ng-init="viewName = 'installed'"
@@ -50,7 +50,7 @@
           <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
           -->
           <tr
-            ng-repeat="(key, value) in extensions.addnew | orderBy:addnewOrder.get()"
+            ng-repeat="(key, value) in extensions | filter: {status: 'remote'} | orderBy:installedOrder.get()"
             ng-class="'crmExt-blockExtensionRow-status-' + value.status"
             ng-include="'~/crmExt/BlockExtensionRow.html'"
             ng-init="viewName = 'addnew'"
