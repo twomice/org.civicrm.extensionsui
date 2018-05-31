@@ -17,10 +17,11 @@
       this.key = _.result(data, 'key');
       this.label = _.result(data, 'label');
       this.license = _.result(data, 'license');
+      this.local = _.result(data, 'local');
       this.maintainer = ''; // TODO: would it be overboard to have a separate model?
       this.name = _.result(data, 'name');
       this.path = _.result(data, 'path');
-      this.releaseDate = _.result(data, 'releaseDate');
+      this.remote = _.result(data, 'remote');
       this.status = _.result(data, 'status');
       /**
        * Used to keep track of state in the application, and may differ from the
