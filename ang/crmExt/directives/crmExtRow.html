@@ -1,0 +1,26 @@
+<!-- TODO NEXT: Make sure these columns display the correct data. Version needs
+     to take the context into account. Status label isn't displaying for
+     unknown/uninvestigated reasons. FJG wants to investigate using the
+     directive controller to handle the context once globally rather than doing
+     several IFs as we add more display fields.
+-->
+<td class="crm-ext-name">
+  <!-- todo: ng-click okay? encapsulate this in the directive instead? -->
+  <!-- todo: pass the extension data in -->
+  <span ng-click="showOverlay(extData.key, extData.crmExt_parentname)" class="crmExt-detail-link">{{extData.name}}</span>
+  <br/>{{extData.maintainer.author}} <span ng-if="(extData.maintainer.email.length)">({{extData.maintainer.email}})</span>
+  <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(extData.key))">Version {{availableUpgradeVersion(extData.key)}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: value.name, 2: value.key})}" on-yes="value.upgrade();">Upgrade</a></div>
+</td>
+<td class="crm-ext-version">
+  {{extData.local.version}}
+</td>
+<td class="crm-ext-develstage">
+  {{extData.develStage}}
+</td>
+<!-- todo: pass context... or deal with this in the directive controller? -->
+<td class="crm-ext-status" ng-if="(extContext === 'installed')">
+  {{extData.statusLabel}}
+</td>
+<!-- todo: incorporate into this directive? create another? -->
+<td class="crm-ext-actionlinks" ng-include="'~/crmExt/BlockExtensionActionLinks.html'" ng-init="extension = extData">
+</td>

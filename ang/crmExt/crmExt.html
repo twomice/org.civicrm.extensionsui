@@ -22,11 +22,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr
+          <tr crm-ext-row ext-data="value" ext-context="'installed'"
             ng-repeat="(key, value) in extensions | filter: {status: 'installed'} | orderBy:installedOrder.get()"
             ng-class="'crmExt-blockExtensionRow-status-' + value.status"
-            ng-include="'~/crmExt/BlockExtensionRow.html'"
-            ng-init="viewName = 'installed'"
           ></tr>
         </tbody>
       </table>
@@ -34,7 +32,7 @@
     <div id="crmExt-tab-addnew" crm-ui-tab crm-title="ts('Add New')">
       <div class="help" ng-bind-html="addNewHelpText"></div>
       <span crm-ui-order="{var: 'addnewOrder', 'defaults': ['name'] }"></span>
-      <table>
+      <table class="display">
         <thead>
           <tr>
             <th><a href="" crm-ui-order-by="[addnewOrder,'name']">{{ts('Extension')}}</a></th>
@@ -49,11 +47,9 @@
             indicating which columns should be displayed.
           <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
           -->
-          <tr
+          <tr crm-ext-row ext-data="value" ext-context="'not-installed'"
             ng-repeat="(key, value) in extensions | filter: {status: 'remote'} | orderBy:installedOrder.get()"
             ng-class="'crmExt-blockExtensionRow-status-' + value.status"
-            ng-include="'~/crmExt/BlockExtensionRow.html'"
-            ng-init="viewName = 'addnew'"
           ></tr>
         </tbody>
       </table>
