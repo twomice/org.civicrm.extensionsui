@@ -10,48 +10,11 @@
 <div class="crm-container">
   <div crm-ui-tab-set>
     <div id="crmExt-tab-installed" crm-ui-tab crm-title="ts('Installed')">
-      <span crm-ui-order="{var: 'installedOrder', 'defaults': ['name'] }"></span>
-      <table class="display">
-        <thead>
-          <tr>
-            <th><a href="" crm-ui-order-by="[installedOrder,'name']">{{ts('Extension')}}</a></th>
-            <th><a href="" crm-ui-order-by="[installedOrder,'version']">{{ts('Version')}}</a></th>
-            <th><a href="" crm-ui-order-by="[installedOrder,'develStage']">{{ts('Development Stage')}}</a></th>
-            <th><a href="" crm-ui-order-by="[installedOrder,'status']">{{ts('Status')}}</a></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr crm-ext-row ext-data="value" ext-context="'installed'"
-            ng-repeat="(key, value) in extensions | filter: {status: 'installed'} | orderBy:installedOrder.get()"
-            ng-class="'crmExt-blockExtensionRow-status-' + value.status"
-          ></tr>
-        </tbody>
-      </table>
+      <crm-ext-table ext-context="'installed'" ext-data="extensions"></crm-ext-table>
     </div>
     <div id="crmExt-tab-addnew" crm-ui-tab crm-title="ts('Add New')">
       <div class="help" ng-bind-html="addNewHelpText"></div>
-      <span crm-ui-order="{var: 'addnewOrder', 'defaults': ['name'] }"></span>
-      <table class="display">
-        <thead>
-          <tr>
-            <th><a href="" crm-ui-order-by="[addnewOrder,'name']">{{ts('Extension')}}</a></th>
-            <th><a href="" crm-ui-order-by="[addnewOrder,'version']">{{ts('Version')}}</a></th>
-            <th><a href="" crm-ui-order-by="[addnewOrder,'develStage']">{{ts('Development Stage')}}</a></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <!--
-          FIXME: Consider creating a directive that would handle the ng-include and ng-init, probably taking an argument
-            indicating which columns should be displayed.
-          <tr ng-repeat="(key, value) in extensions.addnew" crmExt-row="['name','description','stage','actions']"></tr>
-          -->
-          <tr crm-ext-row ext-data="value" ext-context="'not-installed'"
-            ng-repeat="(key, value) in extensions | filter: {status: 'remote'} | orderBy:installedOrder.get()"
-            ng-class="'crmExt-blockExtensionRow-status-' + value.status"
-          ></tr>
-        </tbody>
-      </table>
+      <crm-ext-table ext-context="'not-installed'" ext-data="extensions"></crm-ext-table>
     </div>
+  </div>
 </div>

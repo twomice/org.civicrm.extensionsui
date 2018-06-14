@@ -1,0 +1,41 @@
+<!--
+  TODO NEXT: Make sure these columns display the correct data.
+  Status label isn't displaying because the API returns the machine status
+  but not the human readable label. See other TODOs inline below.
+-->
+
+<span crm-ui-order="{var: 'installedOrder', 'defaults': ['name'] }"></span>
+<table class="display">
+  <thead>
+    <tr>
+      <th><a href="" crm-ui-order-by="[installedOrder,'name']">{{ts('Extension')}}</a></th>
+      <th><a href="" crm-ui-order-by="[installedOrder,'version']">{{ts('Version')}}</a></th>
+      <th ng-if="(extContext === 'installed')"><a href="" crm-ui-order-by="[installedOrder,'status']">{{ts('Status')}}</a></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      ng-repeat="(key, extension) in extData | filter: {status: displayedStatuses} | orderBy:installedOrder.get()"
+      ng-class="'crmExt-blockExtensionRow-status-' + extension.status"
+      >
+      <td class="crm-ext-name">
+        <!-- todo: ng-click okay? encapsulate this in the directive instead? -->
+        <!-- todo: pass the extension data in -->
+        <span ng-click="showOverlay(extension, extension.crmExt_parentname)" class="crmExt-detail-link">{{extension.name}}</span>
+        <br/>{{extension.maintainer.author}} <span ng-if="(extension.maintainer.email.length)">({{extension.maintainer.email}})</span>
+        <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(extension.key))">Version {{availableUpgradeVersion(extension.key)}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: value.name, 2: value.key})}" on-yes="value.upgrade();">Upgrade</a></div>
+      </td>
+      <td class="crm-ext-version">
+        {{extension[location].version}}
+      </td>
+      <!-- todo: pass context... or deal with this in the directive controller? -->
+      <td class="crm-ext-status" ng-if="(extContext === 'installed')">
+        {{extension.statusLabel}}
+      </td>
+      <!-- todo: incorporate into this directive? create another? -->
+      <td class="crm-ext-actionlinks" ng-include="'~/crmExt/BlockExtensionActionLinks.html'" ng-init="extension = extension">
+      </td>
+    </tr>
+  </tbody>
+</table>
