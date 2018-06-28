@@ -11,7 +11,16 @@
         var ts = $scope.ts = CRM.ts('crmExt');
 
         $scope.location = ($scope.extContext == 'installed' ? 'local' : 'remote');
-        $scope.displayedStatuses = ($scope.extContext == 'installed' ? 'installed' : 'remote');
+        if ($scope.extContext === 'installed') {
+          $scope.displayedStatuses = ['disabled', 'disabled-missing', 'installed'];
+        }
+        else {
+          $scope.displayedStatuses = ['remote', 'uninstalled'];
+        }
+
+        $scope.hasDisplayStatus = function (extension) {
+          return ($scope.displayedStatuses.indexOf(extension.status) > -1);
+        };
       }]
     };
   });

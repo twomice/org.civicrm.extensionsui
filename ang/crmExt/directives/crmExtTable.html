@@ -16,7 +16,7 @@
   </thead>
   <tbody>
     <tr
-      ng-repeat="(key, extension) in extData | filter: {status: displayedStatuses} | orderBy:installedOrder.get()"
+      ng-repeat="(key, extension) in extData | filter: hasDisplayStatus | orderBy:installedOrder.get()"
       ng-class="'crmExt-blockExtensionRow-status-' + extension.status"
       >
       <td class="crm-ext-name">
