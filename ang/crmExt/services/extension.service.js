@@ -23,6 +23,7 @@
       this.path = _.result(data, 'path');
       this.remote = _.result(data, 'remote');
       this.status = _.result(data, 'status');
+      this.statusLabel = _.result(data, 'statusLabel');
       /**
        * Used to keep track of state in the application, and may differ from the
        * state in the database (e.g., which tab an extension should appear in).
