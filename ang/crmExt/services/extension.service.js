@@ -32,13 +32,11 @@
        * disappear from view. TODO: It could be argued this doesn't belong in
        * our model and should be moved to the relevant controller.
        */
-      this.state = {
-        // check this syntax -- what if data.state doesn't exist?
-        status: _.result(data.state, 'status', this.status)
+      this.stateOnPage = {
+        version: _.result(this.local, 'version') || _.result(this.remote, 'version')
       };
       this.type = _.result(data, 'type');
       this.urls = _.result(data, 'urls');
-      this.version = _.result(data, 'version');
     }
 
     /**
