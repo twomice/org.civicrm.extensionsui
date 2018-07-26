@@ -10,7 +10,6 @@
       controller: ['$scope', '$http', function crmExtTable($scope, $http) {
         var ts = $scope.ts = CRM.ts('crmExt');
 
-        $scope.location = ($scope.extContext == 'installed' ? 'local' : 'remote');
         if ($scope.extContext === 'installed') {
           $scope.displayedStatuses = ['disabled', 'disabled-missing', 'installed'];
         }
