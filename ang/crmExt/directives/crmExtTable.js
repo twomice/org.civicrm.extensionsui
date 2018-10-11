@@ -11,7 +11,7 @@
         var ts = $scope.ts = CRM.ts('crmExt');
 
         if ($scope.extContext === 'installed') {
-          $scope.displayedStatuses = ['disabled', 'disabled-missing', 'installed'];
+          $scope.displayedStatuses = ['disabled', 'disabled-missing', 'installed', 'installed-missing'];
         }
         else {
           $scope.displayedStatuses = ['remote', 'uninstalled'];
