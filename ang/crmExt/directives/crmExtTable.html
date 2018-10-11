@@ -1,6 +1,9 @@
 <!--
-  TODO NEXT: Make sure correct action links are displayed.
-  See other TODOs inline below.
+  TODOS:
+  - Fix click on extension name to see details.
+  - Fix action links to do more than display a confirmation that does nothing.
+  - Display alert for available update.
+  - Fix (or remove?) "Refresh" button.
 -->
 
 <span crm-ui-order="{var: 'installedOrder', 'defaults': ['name'] }"></span>
@@ -28,11 +31,9 @@
       <td class="crm-ext-version">
         {{extension.stateOnPage.version}}
       </td>
-      <!-- todo: pass context... or deal with this in the directive controller? -->
       <td class="crm-ext-status" ng-if="(extContext === 'installed')">
         {{extension.statusLabel}}
       </td>
-      <!-- todo: incorporate into this directive? create another? -->
       <td class="crm-ext-actionlinks">
         <a
           ng-if="(extension.status == 'uninstalled' || extension.status == 'remote')"
