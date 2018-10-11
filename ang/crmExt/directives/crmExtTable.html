@@ -40,7 +40,7 @@
           href=""
           crm-confirm="{message: ts('Install <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.install();"
           >
-          Install
+          {{ts('Install')}}
         </a>
 
         <a
@@ -49,7 +49,7 @@
           href=""
           crm-confirm="{message: ts('Enable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.enable();"
           >
-          Enable
+          {{ts('Enable')}}
         </a>
 
         <a
@@ -57,7 +57,7 @@
           class="action-item crm-hover-button" href=""
           crm-confirm="{message: ts('Completely uninstall <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.uninstall();"
           >
-          Uninstall
+          {{ts('Uninstall')}}
         </a>
 
         <a
@@ -66,7 +66,7 @@
           href=""
           crm-confirm="{message: ts('Disable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.disable();"
           >
-          Disable
+          {{ts('Disable')}}
         </a>
       </td>
     </tr>
