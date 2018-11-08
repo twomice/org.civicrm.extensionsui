@@ -1,5 +1,5 @@
 (function (angular, $, _) {
-  angular.module('crmExt').directive('crmExtTable', function() {
+  angular.module('crmExt').directive('crmExtTable', function(dialogService) {
     return {
       restrict: 'E',
       scope: {
@@ -19,6 +19,18 @@
 
         $scope.hasDisplayStatus = function (extension) {
           return ($scope.displayedStatuses.indexOf(extension.status) > -1);
+        };
+
+        $scope.showOverlay = function showOverlay(extension) {
+          var dialogModel = {
+            dataSource: ($scope.extContext === 'installed' ? 'local' : 'remote'),
+            extension: extension
+          };
+          var options = CRM.utils.adjustDialogDefaults({
+            autoOpen: false,
+            title: extension.name
+          });
+          dialogService.open('crmExt-overlay', '~/crmExt/OverlayCtrl.html', dialogModel, options);
         };
       }]
     };

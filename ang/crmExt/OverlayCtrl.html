@@ -5,52 +5,59 @@
     <table class="crm-info-panel">
       <tr>
         <td class="label">{{ts('Author')}}</td>
-        <td>{{model.maintainer.author}} <span ng-if="(model.maintainer.email.length)">({{model.maintainer.email}})</span></td>
+        <td>{{model.extension.maintainer.author}} <span ng-if="(model.extension.maintainer.email.length)">({{model.extension.maintainer.email}})</span></td>
       </tr>
       <tr>
         <td class="label">{{ts('Description')}}</td>
         <td>
-          {{model.description}}
-          <div class="crm-extensions-upgrade" ng-if="(model.hasAvailableUpgrade())">Version {{model.availableUpgradeVersion()}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.name, 2: model.key})}" on-yes="model.upgrade();">Upgrade</a></div>
+          {{model.extension.description}}
+          <!-- TODO: Upgrade-available messaging is not yet ready for prime time. -->
+          <div class="crm-extensions-upgrade" ng-if="(model.extension.hasAvailableUpgrade())">Version {{model.extension.availableUpgradeVersion()}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.extension.name, 2: model.extension.key})}" on-yes="model.extension.upgrade();">Upgrade</a></div>
         </td>
       </tr>
       <tr>
         <td class="label">{{ts('Released on')}}</td>
-        <td>{{model.releaseDate}}</td>
+        <td>{{model.extension[model.dataSource].releaseDate}}</td>
       </tr>
       <tr>
         <td class="label">{{ts('Compatible with')}}</td>
-        <!-- td><span ng-repeat="(key, value) in model.compatibility.ver">{{value}}&nbsp;</span></td -->
-        <td>{{model.compatibility.ver.join(', ')}}</td>
+        <!-- td><span ng-repeat="(key, value) in model.extension.compatibility.ver">{{value}}&nbsp;</span></td -->
+        <td>{{model.extension.compatibleVersions.join(', ')}}</td>
       </tr>
-      <tr ng-repeat="(key, value) in model.urls">
+      <tr ng-repeat="(key, value) in model.extension.urls">
         <td class="label">{{ts(key)}}</td>
         <td>{{value}}</td>
       </tr>
       <tr>
         <td class="label">{{ts('Comments')}}</td>
-        <td>{{model.comments}}</td>
+        <td>{{model.extension.comments}}</td>
       </tr>
       <tr>
         <td class="label">{{ts('License')}}</td>
-        <td>{{model.license}}</td>
+        <td>{{model.extension.license}}</td>
       </tr>
       <tr>
         <td class="label">{{ts('Canonical name')}}</td>
-        <td>{{model.key}}</td>
+        <td>{{model.extension.key}}</td>
       </tr>
-      <tr ng-show="model.downloadUrl">
-        <td class="label">{{ts('Download location')}}</td>
-        <td>{{model.downloadUrl}}</td>
+      <tr>
+        <td class="label">{{ts('Links')}}</td>
+        <td>
+          <ul>
+            <li ng-repeat="(desc, url) in model.extension.urls">
+              <a href="{{url}}" target="_blank">{{desc}}</a>
+            </li>
+          </ul>
+        </td>
       </tr>
       <tr>
         <td class="label">{{ts('Local path')}}</td>
         <td>
-          <div class="crm-inline-error crm-error" ng-if="(model.status == 'installed-missing')">
+          <div class="crm-inline-error crm-error" ng-if="(model.extension.status == 'installed-missing')">
             {{ts('The extension file cannot be loaded from its path. Please restore the file or disable the extension.')}}
           </div>
-          <span ng-if="(model.path.length)">{{model.path}}</span>
-          <div class="crm-inline-error crm-error" ng-if="(model.status == 'disabled-missing')">
+          <span ng-if="(model.extension.path.length)">{{model.extension.path}}</span>
+          <div class="crm-inline-error crm-error" ng-if="(model.extension.status == 'disabled-missing')">
             {{ts('The extension file cannot be loaded. Please restore the file.')}}
           </div>
         </td>
@@ -63,20 +70,20 @@
     <table class="crm-info-panel">
       <tr>
         <td class="label">{{ts('Version')}}</td>
-        <td>{{model.version}}</td>
+        <td>{{model.extension.stateOnPage.version}}</td>
       </tr>
       <tr>
         <td class="label">{{ts('Development stage')}}</td>
-        <td>{{model.develStage}}</td>
+        <td>{{model.extension.develStage}}</td>
       </tr>
-      <tr ng-if="(model.statusLabel.length)">
+      <tr ng-if="(model.extension.statusLabel.length)">
         <td class="label">{{ts('Status')}}</td>
-        <td>{{model.statusLabel}}</td>
+        <td>{{model.extension.statusLabel}}</td>
       </tr>
     </table>
   </div>
   <div id="crmExt-overlay-stats">
     <h4>Statistics</h4>
-    <FIXME-ng-include src="'https://statistics.civicrm.org/snippet.php?id=1&key='+ model.key +'&version=FIXME-version&lang=FIXME-lang'"></ng-include>
+    <FIXME-ng-include src="'https://statistics.civicrm.org/snippet.php?id=1&key='+ model.extension.key +'&version=FIXME-version&lang=FIXME-lang'"></ng-include>
   </div>
 </div>
