@@ -71,6 +71,7 @@ class CRM_Extensionsui_Coalescer {
       'comments' => CRM_Utils_Array::value('comments', $ext),
       'compatibility' => CRM_Utils_Array::value('compatibility', $ext),
       'description' => CRM_Utils_Array::value('description', $ext),
+      'develStage' => CRM_Utils_Array::value('develStage', $ext),
       'key' => CRM_Utils_Array::value('key', $ext),
       'license' => CRM_Utils_Array::value('license', $ext),
       'maintainer' => CRM_Utils_Array::value('maintainer', $ext),
