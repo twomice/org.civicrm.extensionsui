@@ -21,7 +21,7 @@
           return ($scope.displayedStatuses.indexOf(extension.status) > -1);
         };
 
-        $scope.showOverlay = function showOverlay(extension) {
+        $scope.showDetail = function showDetail(extension) {
           var dialogModel = {
             dataSource: ($scope.extContext === 'installed' ? 'local' : 'remote'),
             extension: extension
@@ -30,7 +30,7 @@
             autoOpen: false,
             title: extension.name
           });
-          dialogService.open('crmExt-overlay', '~/crmExt/OverlayCtrl.html', dialogModel, options);
+          dialogService.open('crmExt-extDetail', '~/crmExt/ExtDetailCtrl.html', dialogModel, options);
         };
       }]
     };

@@ -1,5 +1,5 @@
-<div ng-controller="OverlayCtrl">
-  <div id="crmExt-overlay-main">
+<div ng-controller="ExtDetailCtrl">
+  <div id="crmExt-detail-main">
     <div crm-ui-debug="model"></div>
     <h4>&nbsp;</h4>
     <table class="crm-info-panel">
@@ -65,7 +65,7 @@
     </table>
 
   </div>
-  <div id="crmExt-overlay-details">
+  <div id="crmExt-detail-details">
     <h4>Details</h4>
     <table class="crm-info-panel">
       <tr>
@@ -82,7 +82,7 @@
       </tr>
     </table>
   </div>
-  <div id="crmExt-overlay-stats">
+  <div id="crmExt-detail-stats">
     <h4>Statistics</h4>
     <FIXME-ng-include src="'https://statistics.civicrm.org/snippet.php?id=1&key='+ model.extension.key +'&version=FIXME-version&lang=FIXME-lang'"></ng-include>
   </div>
