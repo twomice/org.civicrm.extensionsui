@@ -69,6 +69,7 @@ class CRM_Extensionsui_Coalescer {
     $ext = CRM_Utils_Array::value($extKey, $this->local, $remoteExt);
     return array(
       'comments' => CRM_Utils_Array::value('comments', $ext),
+      'compatibility' => CRM_Utils_Array::value('compatibility', $ext),
       'description' => CRM_Utils_Array::value('description', $ext),
       'key' => CRM_Utils_Array::value('key', $ext),
       'license' => CRM_Utils_Array::value('license', $ext),

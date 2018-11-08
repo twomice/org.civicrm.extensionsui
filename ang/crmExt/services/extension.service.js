@@ -18,7 +18,7 @@
       this.label = _.result(data, 'label');
       this.license = _.result(data, 'license');
       this.local = _.result(data, 'local');
-      this.maintainer = ''; // TODO: would it be overboard to have a separate model?
+      this.maintainer = _.result(data, 'maintainer');
       this.name = _.result(data, 'name');
       this.path = _.result(data, 'path');
       this.remote = _.result(data, 'remote');

@@ -24,7 +24,7 @@
       <td class="crm-ext-name">
         <!-- todo: ng-click okay? encapsulate this in the directive instead? -->
         <!-- todo: pass the extension data in -->
-        <span ng-click="showDetail(extension, extension.crmExt_parentname)" class="crmExt-detail-link">{{extension.name}}</span>
+        <span ng-click="showDetail(extension)" class="crmExt-detail-link">{{extension.name}}</span>
         <br/>{{extension.maintainer.author}} <span ng-if="(extension.maintainer.email.length)">({{extension.maintainer.email}})</span>
         <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(extension.key))">Version {{availableUpgradeVersion(extension.key)}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: value.name, 2: value.key})}" on-yes="value.upgrade();">Upgrade</a></div>
       </td>
