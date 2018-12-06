@@ -31,7 +31,7 @@
           ng-if="(extension.status == 'uninstalled' || extension.status == 'remote')"
           class="action-item crm-hover-button"
           href=""
-          crm-confirm="{message: ts('Install <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.install();"
+          crm-confirm="{message: ts('Install <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.lifecycle('install');"
           >
           {{ts('Install')}}
         </a>
@@ -40,7 +40,7 @@
           ng-if="(extension.status == 'disabled')"
           class="action-item crm-hover-button"
           href=""
-          crm-confirm="{message: ts('Enable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.enable();"
+          crm-confirm="{message: ts('Enable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.lifecycle('enable');"
           >
           {{ts('Enable')}}
         </a>
@@ -48,7 +48,7 @@
         <a
           ng-if="(extension.status == 'disabled' || extension.status == 'disabled-missing')"
           class="action-item crm-hover-button" href=""
-          crm-confirm="{message: ts('Completely uninstall <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.uninstall();"
+          crm-confirm="{message: ts('Completely uninstall <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.lifecycle('uninstall');"
           >
           {{ts('Uninstall')}}
         </a>
@@ -57,7 +57,7 @@
           ng-if="(extension.status == 'installed' || extension.status == 'installed-missing')"
           class="action-item crm-hover-button"
           href=""
-          crm-confirm="{message: ts('Disable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.disable();"
+          crm-confirm="{message: ts('Disable <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.lifecycle('disable');"
           >
           {{ts('Disable')}}
         </a>

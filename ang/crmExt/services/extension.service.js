@@ -53,7 +53,7 @@
       }
 
       // Get these values before the action has a chance to be altered.
-      var messages = getUserFeedbackMessages(action);
+      var messages = this.getUserFeedbackMessages(action);
 
       // If the extension has no path, it doesn't exist on disk and must be
       // downloaded before it can be installed. (Note: the download action also
@@ -81,22 +81,27 @@
      * @returns {Object}
      *   Message object that can be passed as the fourth parameter to CRM.api.
      */
-    function getUserFeedbackMessages(action) {
+    Extension.prototype.getUserFeedbackMessages = function (action) {
       var messages = {};
 
       switch (action) {
         case 'disable':
-          messages.start = 'Disabling ' + this.label + '&hellip;';
-          messages.success = this.label + ' disabled';
+          messages.start = `Disabling ${this.name} (${this.key})...`;
+          messages.success = `${this.name} (${this.key}) disabled`;
           break;
         case 'enable':
-          messages.start = 'Enabling ' + this.label + '&hellip;';
-          messages.success = this.label + ' enabled';
+          messages.start = `Enabling ${this.name} (${this.key})...`;
+          messages.success = `${this.name} (${this.key}) enabled`;
           break;
         case 'install':
-          messages.start = 'Installing ' + this.label + '&hellip;';
-          messages.success = this.label + ' installed';
+          messages.start = `Installing ${this.name} (${this.key})...`;
+          messages.success = `${this.name} (${this.key}) installed`;
           break;
+        case 'uninstall':
+          messages.start = `Uninstalling ${this.name} (${this.key})...`;
+          messages.success = `${this.name} (${this.key}) uninstalled`;
+          break;
+
       }
 
       return messages;
@@ -110,7 +115,7 @@
      * @returns {Boolean}
      */
     function isLifecycleAction(action) {
-      return _.contains(['disable', 'enable', 'install'], action);
+      return _.contains(['disable', 'enable', 'install', 'uninstall'], action);
     }
 
     /**
