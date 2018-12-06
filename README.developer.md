@@ -1,3 +1,9 @@
+# TODOS really:
+  - Fix action links to do more than display a confirmation that does nothing.
+  - Add action buttons to details overlay.
+  - Display alert for available update.
+  - Fix (or remove?) "Refresh" button.
+
 # TODO
  - How about some tests for local-only extensions?
  - How about some tests against the remote and local subarrays? (We should find
