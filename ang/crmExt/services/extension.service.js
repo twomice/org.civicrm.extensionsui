@@ -33,10 +33,10 @@
        * our model and should be moved to the relevant controller.
        */
       this.stateOnPage = {
-        version: _.result(this.local, 'version') || _.result(this.remote, 'version')
       };
       this.type = _.result(data, 'type');
       this.urls = _.result(data, 'urls');
+      this.version = _.result(this.local, 'version') || _.result(this.remote, 'version');
     }
 
     /**

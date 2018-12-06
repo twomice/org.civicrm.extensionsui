@@ -21,7 +21,7 @@
         <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(extension.key))">Version {{availableUpgradeVersion(extension.key)}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: value.name, 2: value.key})}" on-yes="value.upgrade();">Upgrade</a></div>
       </td>
       <td class="crm-ext-version">
-        {{extension.stateOnPage.version}}
+        {{extension.version}}
       </td>
       <td class="crm-ext-status" ng-if="(extContext === 'installed')">
         {{extension.statusLabel}}
