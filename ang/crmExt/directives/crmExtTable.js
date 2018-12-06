@@ -10,15 +10,13 @@
       controller: ['$scope', '$http', function crmExtTable($scope, $http) {
         var ts = $scope.ts = CRM.ts('crmExt');
 
-        if ($scope.extContext === 'installed') {
-          $scope.displayedStatuses = ['disabled', 'disabled-missing', 'installed', 'installed-missing'];
-        }
-        else {
-          $scope.displayedStatuses = ['remote', 'uninstalled'];
-        }
+        var displayedStatuses = ($scope.extContext === 'installed'
+          ? ['disabled', 'disabled-missing', 'installed', 'installed-missing']
+          : ['remote', 'uninstalled']
+        );
 
         $scope.hasDisplayStatus = function (extension) {
-          return ($scope.displayedStatuses.indexOf(extension.status) > -1);
+          return (displayedStatuses.indexOf(extension.statusOnPageLoad) > -1);
         };
 
         $scope.showDetail = function showDetail(extension) {

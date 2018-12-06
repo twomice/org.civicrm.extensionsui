@@ -2,7 +2,22 @@
   // Declare a list of dependencies.
   angular.module('crmExt').factory('Extension', function (crmApi) {
 
+    /**
+     * Constructor for the Extension object.
+     *
+     * @param {Object} data
+     *   Properties as received from api.Extension.getCoalesced.
+     */
     function Extension(data) {
+      this.populateValues(data);
+      this.statusOnPageLoad = this.status;
+    }
+
+    /**
+     * @param {Object} data
+     *   Properties as received from api.Extension.getCoalesced.
+     */
+    Extension.prototype.populateValues = function (data) {
       // The underscore "result" helper used extensively below is a bit like
       // CiviCRM's CRM_Utils_Array::value(), though the signature is different.
 
@@ -24,16 +39,6 @@
       this.remote = _.result(data, 'remote');
       this.status = _.result(data, 'status');
       this.statusLabel = _.result(data, 'statusLabel');
-      /**
-       * Used to keep track of state in the application, and may differ from the
-       * state in the database (e.g., which tab an extension should appear in).
-       *
-       * Prevents the unexpected UX of disabling an extension and having it
-       * disappear from view. TODO: It could be argued this doesn't belong in
-       * our model and should be moved to the relevant controller.
-       */
-      this.stateOnPage = {
-      };
       this.type = _.result(data, 'type');
       this.urls = _.result(data, 'urls');
       this.version = _.result(this.local, 'version') || _.result(this.remote, 'version');
@@ -62,13 +67,34 @@
         action = 'download';
       }
 
-      var params = {key: this.key};
+      // TODO: api.Extension.getCoalesced doesn't currently handle the "key"
+      // parameter, so this will return information about all the extensions.
+      // It should be trivial to update the API so we aren't sending unnecessary
+      // data across the wire.
+      var params = {
+        key: this.key,
+        sequential: 0
+      };
+
+      // Most Extension API actions return only success/failure flags, making
+      // chained requests impossible. To update our model with the current
+      // actual state of the extension, we immediately request the extension
+      // entity following our action to see how it has changed, using a little-
+      // known API interface detailed here:
+      // https://docs.civicrm.org/dev/en/latest/api/interfaces/#crmapi3
+      var apiCalls = [
+        ['Extension', action, params],
+        ['Extension', 'getcoalesced', params]
+      ];
+
       // TODO: explain why we are handling user feedback in the model (via messages)
-      return crmApi('Extension', action, params, messages).then(function (result) {
-        // TODO: "then" is probably inappropriate; let's do this conditionally
-        // on success -- I think we want .success()
-        // TODO: validate that the result object is actually structured this way
-        this.status = result.status;
+      return crmApi(apiCalls, messages).then(function (result) {
+        // TODO: what if result[0].is_error === 1?
+        var getCoalescedResult = result[1];
+
+        // TODO: The return signature may change once api.Extension.getCoalesced
+        // can handle the "key" parameter.
+        this.populateValues(getCoalescedResult.values[this.key]);
       }.bind(this));
     };
 
@@ -101,7 +127,6 @@
           messages.start = `Uninstalling ${this.name} (${this.key})...`;
           messages.success = `${this.name} (${this.key}) uninstalled`;
           break;
-
       }
 
       return messages;
