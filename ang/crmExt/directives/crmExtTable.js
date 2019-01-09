@@ -16,7 +16,7 @@
         );
 
         $scope.hasDisplayStatus = function (extension) {
-          return (displayedStatuses.indexOf(extension.statusOnPageLoad) > -1);
+          return (displayedStatuses.indexOf(extension.statusOnPage) > -1);
         };
 
         $scope.showDetail = function showDetail(extension) {

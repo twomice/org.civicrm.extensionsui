@@ -1,6 +1,4 @@
 # TODOS really:
-  - Ensure extensions are listed in the correct tabs after on-page lifecycle
-    actions (e.g., update statusOnPageLoad when user changes tabs).
   - Ensure styles are appropriate for the status of an extension when it appears
     in tab that doesn't match its current state (e.g., user is on "Installed"
     tab but extension has been uninstalled).

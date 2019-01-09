@@ -10,7 +10,7 @@
      */
     function Extension(data) {
       this.populateValues(data);
-      this.statusOnPageLoad = this.status;
+      this.statusOnPage = this.status;
     }
 
     /**

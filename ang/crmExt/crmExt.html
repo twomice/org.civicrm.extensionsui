@@ -8,7 +8,7 @@
 </p>
 <div ng-include="'~/crmExt/BlockPageActionLinks.html'"></div>
 <div class="crm-container">
-  <div crm-ui-tab-set>
+  <div crm-ui-tab-set ng-click="updatestatusOnPage($event)">
     <div id="crmExt-tab-installed" crm-ui-tab crm-title="ts('Installed')">
       <crm-ext-table ext-context="'installed'" ext-data="extensions"></crm-ext-table>
     </div>

@@ -131,6 +131,22 @@
     };
 
     /**
+     * Click handler to update on-page status for all extensions.
+     *
+     * @param {jQuery.Event} e
+     *  Instance of a jQuery event object, since this is a click-handler.
+     */
+    $scope.updatestatusOnPage = function updatestatusOnPage(e) {
+      // crm-ui-tab-set applies the click handler to the entire tab-set block.
+      // We only want to take action on clicks to the tab controls themselves.
+      if($(e.target).is('a.ui-tabs-anchor')) {
+        $scope.extensions.forEach(function (extension) {
+          extension.statusOnPage = extension.status;
+        });
+      }
+    };
+
+    /**
      * JavaScript implementation of of PHP's version_compare().
      * Part of the Locutus project; used here under MIT License:
      * https://github.com/kvz/locutus/blob/master/LICENSE
