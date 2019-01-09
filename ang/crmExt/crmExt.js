@@ -25,7 +25,7 @@
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
   //   dialogService -- provided by civicrm.
   //   $q, $timeout -- provided by angular.
-  angular.module('crmExt').controller('ExtensionsuicrmExt', function ($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout, extensions) {
+  angular.module('crmExt').controller('ExtensionsuicrmExt', function ($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout, extensions, Extension) {
     $scope.extensions = extensions;
 
     // The ts() and hs() functions help load strings for this module.
@@ -35,12 +35,22 @@
     $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework});
     $scope.legacyExtensionsURL = CRM.url('civicrm/admin/extensions', {reset: 1});
 
-    $scope.refresh = function refresh() {
+    /**
+     * Updates model with newest list of available extensions, both local and remote.
+     */
+    $scope.scan = function scan() {
       return crmStatus(
         // Status messages. For defaults, just use "{}"
-        {start: ts('Refreshing...'), success: ts('Refreshed')},
+        {start: ts('Scanning...'), success: ts('Scan completed')},
         crmApi('Extension', 'refresh', {})
-      );
+      )
+      .then(function () {
+        crmApi('Extension', 'getCoalesced').then(function (data) {
+          $scope.extensions = _.map(data.values, function (ext) {
+            return new Extension(ext);
+          });
+        });
+      });
     };
 
     $scope.hasAvailableUpgrade = function hasAvailableUpgrade(key) {

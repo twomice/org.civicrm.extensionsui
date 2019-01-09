@@ -1,10 +1,6 @@
 # TODOS really:
-  - Ensure styles are appropriate for the status of an extension when it appears
-    in tab that doesn't match its current state (e.g., user is on "Installed"
-    tab but extension has been uninstalled).
   - Display alert for available update.
-  - Fix (or remove?) "Refresh" button.
-  - Add action buttons to details overlay.
+  - (Optional: Add action buttons to details overlay.)
 
 # TODO
  - How about some tests for local-only extensions?
