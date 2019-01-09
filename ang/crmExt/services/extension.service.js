@@ -67,10 +67,6 @@
         action = 'download';
       }
 
-      // TODO: api.Extension.getCoalesced doesn't currently handle the "key"
-      // parameter, so this will return information about all the extensions.
-      // It should be trivial to update the API so we aren't sending unnecessary
-      // data across the wire.
       var params = {
         key: this.key,
         sequential: 0

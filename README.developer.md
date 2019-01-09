@@ -1,5 +1,4 @@
 # TODOS really:
-  - Add parameter support to getCoalesced API.
   - Ensure extensions are listed in the correct tabs after on-page lifecycle
     actions (e.g., update statusOnPageLoad when user changes tabs).
   - Ensure styles are appropriate for the status of an extension when it appears
