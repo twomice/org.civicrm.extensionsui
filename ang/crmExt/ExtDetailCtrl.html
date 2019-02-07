@@ -11,8 +11,12 @@
         <td class="label">{{ts('Description')}}</td>
         <td>
           {{model.extension.description}}
-          <!-- TODO: Upgrade-available messaging is not yet ready for prime time. -->
-          <div class="crm-extensions-upgrade" ng-if="(model.extension.getUpgradeVersion())">Version {{model.extension.getUpgradeVersion()}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.extension.name, 2: model.extension.key})}" on-yes="model.extension.lifecycle('upgrade')">Upgrade</a></div>
+          <div class="crm-extensions-upgrade" ng-if="(model.extension.getUpgradeVersion())">
+            {{ts('Version %1 is available.', {1: model.extension.getUpgradeVersion()})}}
+            <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.extension.name, 2: model.extension.key})}" on-yes="model.extension.lifecycle('upgrade')">
+              {{ts('Upgrade')}}
+            </a>
+          </div>
         </td>
       </tr>
       <tr>
@@ -21,7 +25,6 @@
       </tr>
       <tr>
         <td class="label">{{ts('Compatible with')}}</td>
-        <!-- td><span ng-repeat="(key, value) in model.extension.compatibility.ver">{{value}}&nbsp;</span></td -->
         <td>{{model.extension.compatibleVersions.join(', ')}}</td>
       </tr>
       <tr>
@@ -62,7 +65,7 @@
 
   </div>
   <div id="crmExt-detail-details">
-    <h4>Details</h4>
+    <h4>{{ts('Details')}}</h4>
     <table class="crm-info-panel">
       <tr>
         <td class="label">{{ts('Version')}}</td>

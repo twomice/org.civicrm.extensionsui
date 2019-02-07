@@ -15,7 +15,6 @@
       >
       <td class="crm-ext-name">
         <!-- todo: ng-click okay? encapsulate this in the directive instead? -->
-        <!-- todo: pass the extension data in -->
         <span ng-click="showDetail(extension)" class="crmExt-detail-link">{{extension.name}}</span>
         <br/>{{extension.maintainer.author}} <span ng-if="(extension.maintainer.email.length)">({{extension.maintainer.email}})</span>
       </td>
