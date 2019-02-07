@@ -32,7 +32,7 @@ tr.crmExt-blockExtensionRow-status-disabled-missing * {
 }
 
 tr.crmExt-blockExtensionRow-status-installed {
-  background-color: #DDFFDD !important;
+  background-color: #ddffdd;
 }
 
 tr.crmExt-blockExtensionRow-status-disabled * {
@@ -41,4 +41,8 @@ tr.crmExt-blockExtensionRow-status-disabled * {
 tr.crmExt-blockExtensionRow-status-disabled .crmExt-detail-link,
 tr.crmExt-blockExtensionRow-status-disabled a {
   color: #74a2be !important;
+}
+
+tr.crmExt-blockExtensionRow-hasUpgrade {
+  background-color: #ffb;
 }

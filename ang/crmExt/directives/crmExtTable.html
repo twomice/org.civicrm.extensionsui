@@ -11,14 +11,13 @@
   <tbody>
     <tr
       ng-repeat="(key, extension) in extData | filter: hasDisplayStatus | orderBy:installedOrder.get()"
-      ng-class="'crmExt-blockExtensionRow-status-' + extension.status"
+      ng-class="['crmExt-blockExtensionRow-status-' + extension.status, {'crmExt-blockExtensionRow-hasUpgrade': extension.getUpgradeVersion()}]"
       >
       <td class="crm-ext-name">
         <!-- todo: ng-click okay? encapsulate this in the directive instead? -->
         <!-- todo: pass the extension data in -->
         <span ng-click="showDetail(extension)" class="crmExt-detail-link">{{extension.name}}</span>
         <br/>{{extension.maintainer.author}} <span ng-if="(extension.maintainer.email.length)">({{extension.maintainer.email}})</span>
-        <div class="crm-extensions-upgrade" ng-if="(hasAvailableUpgrade(extension.key))">Version {{availableUpgradeVersion(extension.key)}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: value.name, 2: value.key})}" on-yes="value.upgrade();">Upgrade</a></div>
       </td>
       <td class="crm-ext-version">
         {{extension.version}}
@@ -61,6 +60,14 @@
           >
           {{ts('Disable')}}
         </a>
+
+        <a
+          ng-if="extension.getUpgradeVersion()"
+          class="action-item crm-hover-button"
+          href=""
+          crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: extension.name, 2: extension.key})}" on-yes="extension.lifecycle('upgrade');">
+            {{ts('Upgrade to %1', {1: extension.getUpgradeVersion()})}}
+          </a>
       </td>
     </tr>
   </tbody>
