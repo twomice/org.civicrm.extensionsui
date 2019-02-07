@@ -71,33 +71,28 @@
       if (action === 'install' && (_.isUndefined(this.path) || _.isEmpty(this.path))) {
         action = 'download';
       }
-      // Most Extension API actions return only success/failure flags, making
-      // chained requests impossible. We make sequential API calls using a little-
-      // known API interface detailed here:
-      // https://docs.civicrm.org/dev/en/latest/api/interfaces/#crmapi3
-      var apiCalls = [];
+
       // An extension upgrade requires that we first download the extension with
       // a separate API call.
+      var isUpgrade = 0;
       if (action === 'upgrade') {
-        apiCalls.push(['Extension', 'download', params]);
+        isUpgrade = 1;
+        action = 'download';
       }
 
-      apiCalls.push(['Extension', action, params]);
+      var thisExtension = this;
 
-      // To update our model with the now-current state of the extension, we
-      // immediately request the extension entity following our action to see
-      // how it has changed,
-      apiCalls.push(['Extension', 'getcoalesced', params]);
-
-      // TODO: explain why we are handling user feedback in the model (via messages)
-      return crmApi(apiCalls, messages).then(function (result) {
-        // TODO: what if result[0].is_error === 1?
-        var getCoalescedResult = result[1];
-
-        // TODO: The return signature may change once api.Extension.getCoalesced
-        // can handle the "key" parameter.
-        this.populateValues(getCoalescedResult.values[this.key]);
-      }.bind(this));
+      return crmApi('Extension', action, params, messages).then(function(){
+        var apiCalls = [];
+        if (isUpgrade) {
+          apiCalls.push(['Extension', 'upgrade', params]);
+        }
+        apiCalls.push(['Extension', 'getcoalesced', params]);
+        return crmApi(apiCalls).then(function(result){
+          var getCoalescedResult = result.pop();
+          thisExtension.populateValues(getCoalescedResult.values[thisExtension.key]);
+        });
+      });
     };
 
     /**
@@ -128,6 +123,10 @@
         case 'uninstall':
           messages.start = `Uninstalling ${this.name} (${this.key})...`;
           messages.success = `${this.name} (${this.key}) uninstalled`;
+          break;
+        case 'upgrade':
+          messages.start = `Upgrading ${this.name} (${this.key})...`;
+          messages.success = `${this.name} (${this.key}) upgraded`;
           break;
       }
 
