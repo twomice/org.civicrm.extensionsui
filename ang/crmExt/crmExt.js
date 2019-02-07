@@ -53,25 +53,6 @@
       });
     };
 
-    $scope.hasAvailableUpgrade = function hasAvailableUpgrade(key) {
-      var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key});
-      if (_.isUndefined(remoteExtension)) {
-        return false;
-      }
-      var localExtension = _.findWhere(localExtensions.values, {'key': key});
-      if (_.isUndefined(localExtension)) {
-        return false;
-      }
-      return (crmExt_version_compare(localExtension.version, remoteExtension.version, '<'));
-    };
-    $scope.availableUpgradeVersion = function availableUpgradeVersion(key) {
-      var remoteExtension = _.findWhere(remoteExtensions.values, {'key': key});
-      if (_.isUndefined(remoteExtension)) {
-        return '';
-      }
-      return remoteExtension.version;
-    };
-
     /**
      * Click handler to update on-page status for all extensions.
      *

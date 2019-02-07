@@ -1,5 +1,4 @@
 # TODOS really:
-  - Display alert for available update.
   - (Optional: Add action buttons to details overlay.)
 
 # TODO

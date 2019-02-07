@@ -12,7 +12,7 @@
         <td>
           {{model.extension.description}}
           <!-- TODO: Upgrade-available messaging is not yet ready for prime time. -->
-          <div class="crm-extensions-upgrade" ng-if="(model.extension.hasAvailableUpgrade())">Version {{model.extension.availableUpgradeVersion()}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.extension.name, 2: model.extension.key})}" on-yes="model.extension.upgrade();">Upgrade</a></div>
+          <div class="crm-extensions-upgrade" ng-if="(model.extension.getUpgradeVersion())">Version {{model.extension.getUpgradeVersion()}} is available. <a href="" crm-confirm="{message: ts('Upgrade <em>%1 (%2)</em>?', {1: model.extension.name, 2: model.extension.key})}" on-yes="model.extension.lifecycle('upgrade')">Upgrade</a></div>
         </td>
       </tr>
       <tr>
