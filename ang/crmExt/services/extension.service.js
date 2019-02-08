@@ -109,24 +109,24 @@
 
       switch (action) {
         case 'disable':
-          messages.start = `Disabling ${this.name} (${this.key})...`;
-          messages.success = `${this.name} (${this.key}) disabled`;
+          messages.start = ts('Disabling %1 (%2)…', {1: this.name, 2: this.key});
+          messages.success = ts('%1 (%2) disabled', {1: this.name, 2: this.key});
           break;
         case 'enable':
-          messages.start = `Enabling ${this.name} (${this.key})...`;
-          messages.success = `${this.name} (${this.key}) enabled`;
+          messages.start = ts('Enabling %1 (%2)…', {1: this.name, 2: this.key});
+          messages.success = ts('%1 (%2) enabled', {1: this.name, 2: this.key});
           break;
         case 'install':
-          messages.start = `Installing ${this.name} (${this.key})...`;
-          messages.success = `${this.name} (${this.key}) installed`;
+          messages.start = ts('Installing %1 (%2)…', {1: this.name, 2: this.key});
+          messages.success = ts('%1 (%2) installed', {1: this.name, 2: this.key});
           break;
         case 'uninstall':
-          messages.start = `Uninstalling ${this.name} (${this.key})...`;
-          messages.success = `${this.name} (${this.key}) uninstalled`;
+          messages.start = ts('Uninstalling %1 (%2)…', {1: this.name, 2: this.key});
+          messages.success = ts('%1 (%2) uninstalled', {1: this.name, 2: this.key});
           break;
         case 'upgrade':
-          messages.start = `Upgrading ${this.name} (${this.key})...`;
-          messages.success = `${this.name} (${this.key}) upgraded`;
+          messages.start = ts('Upgrading %1 (%2)…', {1: this.name, 2: this.key});
+          messages.success = ts('%1 (%2) upgraded', {1: this.name, 2: this.key});
           break;
       }
 
@@ -143,7 +143,7 @@
       var localVersion = _.result(this.local, 'version');
       var remoteVersion = _.result(this.remote, 'version');
       var hasUpgrade = version_compare (localVersion, remoteVersion, '<');
-      return (hasUpgrade ? remoteVersion : false);
+      return (hasUpgrade && localVersion !== null ? remoteVersion : false);
     };
 
     /**
