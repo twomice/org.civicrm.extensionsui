@@ -1,6 +1,5 @@
 # TODOS really:
-  - Bug: all "add new" extensions show as 'upgrade available'
-  - Check all strings for proper ts() usage
+  - Decide if we're really ready to launch this (as a beta?(
 
 # TODO
  - How about some tests for local-only extensions?
