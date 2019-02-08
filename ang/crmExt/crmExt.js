@@ -28,8 +28,7 @@
   angular.module('crmExt').controller('ExtensionsuicrmExt', function ($scope, crmApi, crmStatus, crmUiHelp, dialogService, $q, $timeout, extensions, Extension) {
     $scope.extensions = extensions;
 
-    // The ts() and hs() functions help load strings for this module.
-    var ts = $scope.ts = CRM.ts('crmExt');
+    // The hs() function helps load strings for this module.
     var hs = $scope.hs = crmUiHelp({file: 'CRM/crmExt/crmExt'}); // See: templates/CRM/crmExt/crmExt.hlp
 
     $scope.addNewHelpText = ts('These extensions are compatible with your version of CiviCRM and have passed a quality review by the CiviCRM community. You may also want to check the <a href="https://civicrm.org/extensions">CiviCRM Extensions Directory</a> for CiviCRM-related <a href="https://civicrm.org/extensions/%1">%1 modules</a>, which are not listed here.', {1: CRM.config.userFramework});

@@ -8,7 +8,7 @@
       },
       templateUrl: '~/crmExt/directives/crmExtTable.html',
       controller: ['$scope', '$http', function crmExtTable($scope, $http) {
-        var ts = $scope.ts = CRM.ts('crmExt');
+        $scope.ts = $scope.$root.ts;
 
         var displayedStatuses = ($scope.extContext === 'installed'
           ? ['disabled', 'disabled-missing', 'installed', 'installed-missing']
