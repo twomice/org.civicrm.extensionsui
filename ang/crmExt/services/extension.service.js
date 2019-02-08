@@ -143,7 +143,7 @@
       var localVersion = _.result(this.local, 'version');
       var remoteVersion = _.result(this.remote, 'version');
       var hasUpgrade = version_compare (localVersion, remoteVersion, '<');
-      return (hasUpgrade ? remoteVersion : false);
+      return (hasUpgrade && localVersion !== null ? remoteVersion : false);
     };
 
     /**
