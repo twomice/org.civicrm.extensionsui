@@ -1,5 +1,6 @@
 # TODOS really:
-  - (Optional: Add action buttons to details overlay.)
+  - Bug: all "add new" extensions show as 'upgrade available'
+  - Check all strings for proper ts() usage
 
 # TODO
  - How about some tests for local-only extensions?
